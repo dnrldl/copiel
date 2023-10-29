@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="site-tltle">
+        <a href="/"><h1>Copiel</h1></a>
+      </div>
+      <ul>
+        <% if (user) { %>
+        <li>안녕하세요, <%= user.email %></li>
+        <li><a href="/logout">로그아웃</a></li>
+        <% } else { %>
+        <li><a href="/login">로그인</a></li>
+        <li><a href="/signup" class="btn">회원가입</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  </body>
+</html>
