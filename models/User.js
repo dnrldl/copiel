@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     required: [true, '비밀번호를 입력해주세요'],
     minLength: [6, '최소 6자리 이상 입력해주세요'],
   },
+  username: {
+    type: String,
+    required: [true, '이름을 입력해주세요'],
+  },
 });
 
 //데이터베이스에 저장되기 전 실행될 함수
