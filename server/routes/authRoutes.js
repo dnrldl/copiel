@@ -20,7 +20,7 @@ router.get('/game', (req, res) =>
 );
 
 //auth routes(for logged users)
-router.get('/leaderboard', requireAuth, (req, res) =>
+router.get('/leaderboard', (req, res) =>
   res.render('leaderboard', { title: 'Copiel : 리더보드' })
 );
 router.get('/changeusername', requireAuth, (req, res) => {
