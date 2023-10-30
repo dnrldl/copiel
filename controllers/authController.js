@@ -39,14 +39,6 @@ const createToken = id => {
   });
 };
 
-module.exports.signup_get = (req, res) => {
-  res.render('signup', { title: 'sign up' });
-};
-
-module.exports.login_get = (req, res) => {
-  res.render('login', { title: 'login' });
-};
-
 module.exports.signup_post = async (req, res) => {
   const { email, password, username } = req.body;
 
@@ -73,9 +65,4 @@ module.exports.login_post = async (req, res) => {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
-};
-
-module.exports.logout_get = (req, res) => {
-  res.cookie('jwt', '', { maxAge: 1 }); //cookie(token) delete
-  res.redirect('/');
 };

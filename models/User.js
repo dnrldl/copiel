@@ -20,6 +20,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, '이름을 입력해주세요'],
   },
+  createAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updateAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 //데이터베이스에 저장되기 전 실행될 함수
