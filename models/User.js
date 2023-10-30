@@ -21,7 +21,6 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, '이름을 입력해주세요'],
-    minLength: [2, '최소 2자리 이상 입력해주세요'],
   },
   createAt: {
     type: Date,

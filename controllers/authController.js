@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 //Handle Errors
 const handleErrors = err => {
   console.log(err.message, err.code);
-  let errors = { email: '', password: '' };
+  let errors = { email: '', password: '', spaceerror: '' };
 
   //incorrect email
   if (err.message === 'incorrect email') {
@@ -14,6 +14,11 @@ const handleErrors = err => {
   //incorrect password
   if (err.message === 'incorrect password') {
     errors.password = '비밀번호가 틀립니다';
+  }
+
+  //include space
+  if (err.message === 'include space') {
+    errors.spaceerror = '공백 값을 넣지 마세요';
   }
 
   //duplicate error code
@@ -44,10 +49,18 @@ module.exports.signup_post = async (req, res) => {
   const { email, password, username } = req.body;
 
   try {
-    const user = await User.create({ email, password, username });
-    const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); //(key, value, option)
-    res.status(201).json({ user: user._id });
+    if (
+      email.includes(' ') ||
+      password.includes(' ') ||
+      username.includes(' ')
+    ) {
+      throw new Error('include space');
+    } else {
+      const user = await User.create({ email, password, username });
+      const token = createToken(user._id);
+      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); //(key, value, option)
+      res.status(201).json({ user: user._id });
+    }
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -61,7 +74,7 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); //(key, value, option)
-    res.status(200).json({ user });
+    res.status(200).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -72,22 +85,18 @@ module.exports.changeusername_post = async (req, res) => {
   const { username } = req.body;
   const token = req.cookies.jwt;
 
-  jwt.verify(token, 'copiel secret', async (err, decodedToken) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      try {
-        let user = await User.findById(decodedToken.id);
+  try {
+    jwt.verify(token, 'copiel secret', async (err, decodedToken) => {
+      let user = await User.findById(decodedToken.id);
 
-        const filter = { _id: user._id };
-        const update = { username: username };
+      const filter = { _id: user._id };
+      const update = { username: username, updateAt: new Date() };
 
-        user = await User.findOneAndUpdate(filter, update);
-        res.status(200).json({ user });
-      } catch (err) {
-        const errors = handleErrors(err);
-        res.status(400).json({ errors });
-      }
-    }
-  });
+      user = await User.findOneAndUpdate(filter, update);
+      res.status(200).json({ user: user._id });
+    });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
 };

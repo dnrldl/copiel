@@ -2,6 +2,7 @@ const form = document.querySelector('form');
 const emailError = document.querySelector('.email.error');
 const passwordError = document.querySelector('.password.error');
 const usernameError = document.querySelector('.username.error');
+const spaceError = document.querySelector('.space.error');
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
@@ -10,6 +11,7 @@ form.addEventListener('submit', async e => {
   emailError.textContent = '';
   passwordError.textContent = '';
   usernameError.textContent = '';
+  spaceError.textContent = '';
 
   //get values
   const email = form.email.value;
@@ -32,6 +34,7 @@ form.addEventListener('submit', async e => {
       emailError.textContent = data.errors.email;
       passwordError.textContent = data.errors.password;
       usernameError.textContent = data.errors.username;
+      spaceError.textContent = data.errors.spaceerror;
     }
     if (data.user) {
       location.assign('/');
