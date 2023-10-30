@@ -4,13 +4,13 @@ const express = require('express');
 const expressLayouts = require('express-layouts');
 const cookieParser = require('cookie-parser');
 
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./server/routes/authRoutes');
 const connectDB = require('./server/config/db');
 
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
-//middleware
+//set middleware
 app.use(expressLayouts);
 app.set('layout', './layouts/main');
 app.use(express.urlencoded({ extended: true }));
@@ -18,14 +18,16 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
-//view engine
+//set view engine
 app.set('view engine', 'ejs');
 
-//database connect
+//connect database
 connectDB();
 
+//routes
 app.use(authRoutes);
 
+//listen server
 app.listen(PORT, () => {
   console.log(`server on port ${PORT}`);
 });

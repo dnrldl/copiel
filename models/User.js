@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 
-const userSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+
+const userSchema = new Schema({
   email: {
     type: String,
     required: [true, '이메일을 입력해주세요'],
