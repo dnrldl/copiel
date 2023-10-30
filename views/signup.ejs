@@ -1,13 +1,22 @@
 <form>
   <h2>회원가입</h2>
+
   <label for="email">이메일</label>
   <input type="text" name="email" /> <br />
   <div class="email error"></div>
+
+  <label for="password">이름</label>
+  <input type="text" name="username" /> <br />
+  <div class="username error"></div>
+
   <label for="password">비밀번호</label>
   <input type="password" name="password" /> <br />
   <div class="password error"></div>
-  <label for="password">이름</label>
-  <input type="text" name="username" /> <br />
+
+  <label for="password">비밀번호 확인</label>
+  <input type="password" name="confirmpassword" /> <br />
+  <div class="confirmpassword error"></div>
+
   <button>Sign up</button>
 </form>
 <script src="/js/signup.js"></script>
