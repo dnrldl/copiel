@@ -18,6 +18,9 @@ router.get('/signup', preventEnter, (req, res) =>
 router.get('/login', preventEnter, (req, res) =>
   res.render('login', { title: 'Copiel : 로그인' })
 );
+router.get('/forgotemail', preventEnter, (req, res) =>
+  res.render('forgotemail', { title: 'Copiel : 계정 찾기' })
+);
 router.get('/leaderboard', (req, res) =>
   res.render('leaderboard', { title: 'Copiel : 리더보드' })
 );
@@ -26,6 +29,7 @@ router.get('/leaderboard', (req, res) =>
 router.get('/changeusername', requireAuth, (req, res) => {
   res.render('changeusername', { title: 'Copiel : 이름 바꾸기' });
 });
+
 router.get('/profile', requireAuth, (req, res) => {
   res.render('profile', { title: 'Copiel : 프로필' });
 });
@@ -40,5 +44,6 @@ router.get('/logout', (req, res) => {
 router.post('/signup', authController.signup_post);
 router.post('/login', authController.login_post);
 router.post('/changeusername', authController.changeusername_post);
+router.post('/forgotemail', authController.forgotemail_post);
 
 module.exports = router;

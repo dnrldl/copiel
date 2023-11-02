@@ -2,7 +2,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 //Handle Errors
-const handleErrors = (err) => {
+const handleErrors = err => {
   console.log(err.message, err.code);
   let errors = { email: '', password: '', spaceerror: '' };
 
@@ -39,7 +39,7 @@ const handleErrors = (err) => {
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
+const createToken = id => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -83,7 +83,7 @@ module.exports.changeusername_post = async (req, res) => {
 
   try {
     jwt.verify(token, 'copiel secret', async (err, decodedToken) => {
-      let user = await User.findById(decodedToken.id);
+      const user = await User.findById(decodedToken.id);
 
       const filter = { _id: user._id };
       const update = { username: username, updateAt: new Date() };
@@ -92,6 +92,28 @@ module.exports.changeusername_post = async (req, res) => {
       res.status(200).json({ user: user._id });
     });
   } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
+
+module.exports.forgotemail_post = async (req, res) => {
+  const { username, phone } = req.body;
+
+  try {
+    // const user = await User.findOne({ username: username, phone: phone }).then(
+    //   (err, doc) => {
+    //     console.log(doc);
+    //   }
+    // );
+    const user = await User.findOne({
+      username: username,
+      phone: phone,
+    });
+    res.locals.user = user;
+    res.status(200).json({ user: user });
+  } catch (err) {
+    console.log(err);
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
