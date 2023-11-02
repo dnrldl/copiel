@@ -2,11 +2,10 @@ const form = document.querySelector('form');
 const usernameError = document.querySelector('.username.error');
 const spaceError = document.querySelector('.space.error');
 
-form.addEventListener('submit', async e => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   usernameError.textContent = '';
-  spaceError.textContent = '';
 
   //get values
   const username = form.username.value;

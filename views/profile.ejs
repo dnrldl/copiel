@@ -1,0 +1,8 @@
+<h1><%= user.username %>님의 프로필</h1>
+<p>이메일: <%= user.email %></p>
+<p>이름: <%= user.username %></p>
+<div class="btn-chageusername"><a href="/changeusername">이름 바꾸기</a></div>
+<p>
+  회원가입한 날짜: <%= user.createAt.getFullYear() %>년 <%=
+  user.createAt.getMonth() + 1 %>월 <%= user.createAt.getDate() %>일
+</p>

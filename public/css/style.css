@@ -25,7 +25,7 @@ nav {
   margin-bottom: 60px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ddd;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 nav ul {
   display: flex;

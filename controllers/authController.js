@@ -2,7 +2,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 //Handle Errors
-const handleErrors = err => {
+const handleErrors = (err) => {
   console.log(err.message, err.code);
   let errors = { email: '', password: '', spaceerror: '' };
 
@@ -18,7 +18,7 @@ const handleErrors = err => {
 
   //include space
   if (err.message === 'include space') {
-    errors.spaceerror = '공백 값을 넣지 마세요';
+    errors.spaceerror = '이메일과 비밀번호에 공백 값을 넣지 마세요';
   }
 
   //duplicate error code
@@ -39,7 +39,7 @@ const handleErrors = err => {
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = id => {
+const createToken = (id) => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -49,16 +49,12 @@ module.exports.signup_post = async (req, res) => {
   const { email, password, username } = req.body;
 
   try {
-    if (
-      email.includes(' ') ||
-      password.includes(' ') ||
-      username.includes(' ')
-    ) {
+    if (email.includes(' ') || password.includes(' ')) {
       throw new Error('include space');
     } else {
       const user = await User.create({ email, password, username });
-      const token = createToken(user._id);
-      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); //(key, value, option)
+      // const token = createToken(user._id);
+      // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); //(key, value, option)
       res.status(201).json({ user: user._id });
     }
   } catch (err) {

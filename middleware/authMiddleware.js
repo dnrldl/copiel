@@ -1,6 +1,16 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+const preventEnter = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    res.redirect('/');
+  } else {
+    next();
+  }
+};
+
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
 
@@ -43,4 +53,4 @@ const checkUser = (req, res, next) => {
   }
 };
 
-module.exports = { requireAuth, checkUser };
+module.exports = { requireAuth, checkUser, preventEnter };
