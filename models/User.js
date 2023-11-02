@@ -22,6 +22,11 @@ const userSchema = new Schema({
     type: String,
     required: [true, '이름을 입력해주세요'],
   },
+  phone: {
+    type: String,
+    required: [true, '전화번호를 입력해주세요'],
+    minLength: [11, '유효한 전화번호를 입력해주세요'],
+  },
   createAt: {
     type: Date,
     default: Date.now,

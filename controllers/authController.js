@@ -46,13 +46,13 @@ const createToken = (id) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password, username } = req.body;
+  const { email, password, username, phone } = req.body;
 
   try {
-    if (email.includes(' ') || password.includes(' ')) {
+    if (email.includes(' ') || password.includes(' ') || phone.includes(' ')) {
       throw new Error('include space');
     } else {
-      const user = await User.create({ email, password, username });
+      const user = await User.create({ email, password, username, phone });
       // const token = createToken(user._id);
       // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); //(key, value, option)
       res.status(201).json({ user: user._id });

@@ -18,9 +18,6 @@ router.get('/signup', preventEnter, (req, res) =>
 router.get('/login', preventEnter, (req, res) =>
   res.render('login', { title: 'Copiel : 로그인' })
 );
-router.get('/game', (req, res) =>
-  res.render('game', { title: 'Copiel : 게임' })
-);
 router.get('/leaderboard', (req, res) =>
   res.render('leaderboard', { title: 'Copiel : 리더보드' })
 );
