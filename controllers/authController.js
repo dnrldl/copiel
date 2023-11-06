@@ -2,7 +2,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 //Handle Errors
-const handleErrors = err => {
+const handleErrors = (err) => {
   console.log(err.message, err.code);
   let errors = { email: '', password: '', spaceerror: '' };
 
@@ -39,7 +39,7 @@ const handleErrors = err => {
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = id => {
+const createToken = (id) => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -88,7 +88,7 @@ module.exports.changeusername_post = async (req, res) => {
       const filter = { _id: user._id };
       const update = { username: username, updateAt: new Date() };
 
-      user = await User.findOneAndUpdate(filter, update);
+      await User.findOneAndUpdate(filter, update);
       res.status(200).json({ user: user._id });
     });
   } catch (err) {
