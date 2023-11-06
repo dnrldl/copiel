@@ -5,7 +5,7 @@ const usernameError = document.querySelector('.username.error');
 const phoneError = document.querySelector('.phone.error');
 const spaceError = document.querySelector('.space.error');
 
-form.addEventListener('submit', async e => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   //reset errors

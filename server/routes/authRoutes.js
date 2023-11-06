@@ -25,6 +25,22 @@ router.get('/leaderboard', (req, res) =>
   res.render('leaderboard', { title: 'Copiel : 리더보드' })
 );
 
+//stage routes
+const stages = [
+  { id: '1-1', title: 'Copiel : 1-1' },
+  { id: '1-2', title: 'Copiel : 1-2' },
+  { id: '1-3', title: 'Copiel : 1-3' },
+  { id: '1-4', title: 'Copiel : 1-4' },
+  { id: '1-5', title: 'Copiel : 1-5' },
+  { id: '1-6', title: 'Copiel : 1-6' },
+];
+
+stages.forEach((stage) => {
+  router.get(`/${stage.id}`, (req, res) => {
+    res.render(`./stages/${stage.id}`, { title: stage.title });
+  });
+});
+
 //auth routes(for logged users)
 router.get('/changeusername', requireAuth, (req, res) => {
   res.render('changeusername', { title: 'Copiel : 이름 바꾸기' });
