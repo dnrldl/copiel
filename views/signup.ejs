@@ -10,16 +10,20 @@
   <div class="username error"></div>
 
   <label for="phone">전화번호</label>
-  <input type="text" name="phone" pattern="[0-9]+" /> <br />
+  <input type="text" name="phone" oninput="oninputPhone(this)" maxlength="13" />
+  <br />
   <div class="phone error"></div>
 
   <label for="password">비밀번호</label>
   <input type="password" name="password" /> <br />
   <div class="password error"></div>
 
+  <label for="passwordconfirm">비밀번호 확인</label>
+  <input type="password" name="passwordconfirm" /> <br />
+  <div class="passwordconfirm error"></div>
+
   <div class="space error"></div>
 
   <button>회원가입</button>
 </form>
-
 <script src="/js/signup.js"></script>

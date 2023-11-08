@@ -2,12 +2,14 @@
   <h2>계정 찾기</h2>
 
   <label for="username">이름</label>
-  <input type="text" name="username" required /> <br />
+  <input type="text" name="username" /> <br />
   <div class="username error"></div>
 
   <label for="phone">전화번호</label>
-  <input type="text" name="phone" pattern="[0-9]+" required /> <br />
+  <input type="text" name="phone" oninput="oninputPhone(this)" maxlength="13" />
   <div class="phone error"></div>
+
+  <div class="space error"></div>
 
   <button>찾기</button>
 </form>
