@@ -4,6 +4,10 @@
 <div class="btn-chageusername"><a href="/changeusername">이름 바꾸기</a></div>
 <p>전화번호: <%= user.phone%></p>
 <p>
-  회원가입한 날짜: <%= user.createAt.getFullYear() %>년 <%=
+  회원 가입한 날짜: <%= user.createAt.getFullYear() %>년 <%=
   user.createAt.getMonth() + 1 %>월 <%= user.createAt.getDate() %>일
+</p>
+<p>
+  정보 변경한 날짜: <%= user.updateAt.getFullYear() %>년 <%=
+  user.updateAt.getMonth() + 1 %>월 <%= user.updateAt.getDate() %>일
 </p>

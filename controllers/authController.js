@@ -132,7 +132,7 @@ module.exports.changeusername_post = async (req, res) => {
         const filter = { _id: user._id };
         const update = { username: username, updateAt: new Date() };
 
-        await User.findOneAndUpdate(filter, update);
+        await User.findOneAndUpdate(filter, { $set: update });
         res.status(200).json({ user: user._id });
       });
     }
