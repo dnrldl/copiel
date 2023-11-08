@@ -21,6 +21,9 @@ router.get('/login', preventEnter, (req, res) =>
 router.get('/forgotemail', preventEnter, (req, res) =>
   res.render('forgotemail', { title: 'Copiel : 계정 찾기' })
 );
+router.get('/forgotpassword', preventEnter, (req, res) =>
+  res.render('forgotpassword', { title: 'Copiel : 비밀번호 찾기' })
+);
 router.get('/leaderboard', (req, res) =>
   res.render('leaderboard', { title: 'Copiel : 리더보드' })
 );
@@ -35,7 +38,7 @@ const stages = [
   { id: '1-6', title: 'Copiel : 1-6' },
 ];
 
-stages.forEach((stage) => {
+stages.forEach(stage => {
   router.get(`/${stage.id}`, (req, res) => {
     res.render(`./stages/${stage.id}`, { title: stage.title });
   });
@@ -61,5 +64,6 @@ router.post('/signup', authController.signup_post);
 router.post('/login', authController.login_post);
 router.post('/changeusername', authController.changeusername_post);
 router.post('/forgotemail', authController.forgotemail_post);
+router.post('/forgotpassword', authController.forgotpassword_post);
 
 module.exports = router;

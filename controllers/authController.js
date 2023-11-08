@@ -11,6 +11,7 @@ const handleErrors = err => {
     username: '',
     phone: '',
     spaceerror: '',
+    finderror: '',
   };
 
   //incorrect email
@@ -41,6 +42,12 @@ const handleErrors = err => {
   //password confirm error
   if (err.message === 'password confirm error') {
     errors.passwordconfirm = '비밀번호가 일치하지 않습니다. 다시 시도해 보세요';
+  }
+
+  //find email is null
+  if (err.message === 'find acount is null') {
+    errors.finderror =
+      '입력값이 잘못되었거나 일치하는 계정이 없습니다. 다시 시도해 보세요';
   }
 
   //duplicate error code
@@ -148,8 +155,42 @@ module.exports.forgotemail_post = async (req, res) => {
         username: username,
         phone: phone,
       });
-      res.locals.user = user;
-      res.status(200).json({ user: user });
+      if (user == null) {
+        throw new Error('find acount is null');
+      } else {
+        res.locals.user = user;
+        res.status(200).json({ user: user });
+      }
+    }
+  } catch (err) {
+    console.log(err);
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
+
+module.exports.forgotpassword_post = async (req, res) => {
+  const { email, username, phone } = req.body;
+
+  try {
+    if (email.includes(' ') || username.includes(' ')) {
+      throw new Error('include space');
+    } else if (username.length < 2) {
+      throw new Error('username length error');
+    } else {
+      const user = await User.findOne({
+        email: email,
+        username: username,
+        phone: phone,
+      });
+      if (user == null) {
+        throw new Error('find acount is null');
+      } else {
+        const user = await User.login(email, password);
+        const token = createToken(user._id);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+        res.status(200).json({ user: user });
+      }
     }
   } catch (err) {
     console.log(err);
