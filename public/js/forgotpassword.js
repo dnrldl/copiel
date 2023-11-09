@@ -5,13 +5,13 @@ const phoneError = document.querySelector('.phone.error');
 const spaceError = document.querySelector('.space.error');
 const findError = document.querySelector('.find.error');
 
-const oninputPhone = target => {
+const oninputPhone = (target) => {
   target.value = target.value
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 };
 
-form.addEventListener('submit', async e => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   //reset errors
@@ -38,17 +38,17 @@ form.addEventListener('submit', async e => {
     });
     const data = await res.json();
     console.log(data);
-
     if (data.errors) {
       emailError.textContent = data.errors.email;
       usernameError.textContent = data.errors.username;
       phoneError.textContent = data.errors.phone;
       spaceError.textContent = data.errors.spaceerror;
       findError.textContent = data.errors.finderror;
-    }
-    if (data.user) {
-      console.log(data.user);
-      location.assign('/'); //비밀번호 바꾸게 해주기
+    } else {
+      alert(
+        '지정된 이메일로 발송된 임시 비밀번호로 로그인 후 바로 비밀번호 변경을 해주세요!'
+      );
+      location.assign('/login'); //비밀번호 바꾸게 해주기
     }
   } catch (err) {
     console.log(err);

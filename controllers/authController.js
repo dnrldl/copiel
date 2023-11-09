@@ -1,14 +1,30 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const errorHandler = require('./errorHandler');
+const sendMail = require('./sendMail');
+const bcrypt = require('bcrypt');
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = id => {
+const createToken = (id) => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
 };
+
+//create temp password
+function generateTempPassword(length) {
+  const charset =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; // 사용할 문자 세트
+  let tempPassword = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    tempPassword += charset[randomIndex];
+  }
+
+  return tempPassword;
+}
 
 module.exports.signup_post = async (req, res) => {
   const { email, password, passwordconfirm, username, phone } = req.body;
@@ -111,10 +127,17 @@ module.exports.forgotpassword_post = async (req, res) => {
       });
       if (user == null) throw new Error('find acount is null');
       else {
-        const user = await User.login(email, password);
-        const token = createToken(user._id);
-        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-        res.status(200).json({ user: user });
+        var tempPassword = generateTempPassword(12);
+
+        const salt = await bcrypt.genSalt();
+        saltedTempPassword = await bcrypt.hash(tempPassword, salt);
+
+        const filter = { _id: user._id };
+        const update = { password: saltedTempPassword, updateAt: new Date() };
+
+        await User.findOneAndUpdate(filter, { $set: update });
+        sendMail.sendMailToUser(email, tempPassword);
+        res.status(200).json({ user: user, password: tempPassword });
       }
     }
   } catch (err) {
