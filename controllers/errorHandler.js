@@ -1,5 +1,5 @@
 //Handle Errors
-const handleErrors = err => {
+const handleErrors = (err) => {
   console.log(err.message, err.code);
   let errors = {
     email: '',
@@ -9,6 +9,7 @@ const handleErrors = err => {
     phone: '',
     spaceerror: '',
     finderror: '',
+    currentpassword: '',
   };
 
   //incorrect email
@@ -35,10 +36,18 @@ const handleErrors = err => {
   if (err.message === 'password confirm error')
     errors.passwordconfirm = '비밀번호가 일치하지 않습니다. 다시 시도해 보세요';
 
-  //find email is null
+  //find acount is null
   if (err.message === 'find acount is null')
     errors.finderror =
       '입력값이 잘못되었거나 일치하는 계정이 없습니다. 다시 시도해 보세요';
+
+  //incorrect current password
+  if (err.message === 'incorrect current password')
+    errors.currentpassword = '현재 비밀번호를 정확하게 입력하세요';
+
+  //password length error
+  if (err.message === 'password length error')
+    errors.password = '6자리 이상 입력해주세요';
 
   //duplicate error code
   if (err.code === 11000) errors.email = '이미 사용중인 이메일입니다';

@@ -87,6 +87,39 @@ module.exports.changeusername_post = async (req, res) => {
   }
 };
 
+module.exports.changepassword_post = async (req, res) => {
+  var { currentpassword, password, passwordconfirm } = req.body;
+  const token = req.cookies.jwt;
+
+  var decodedToken = await jwt.verify(token, 'copiel secret');
+  var user = await User.findById(decodedToken.id);
+  var auth = await bcrypt.compare(currentpassword, user.password);
+
+  try {
+    if (password.length < 6) throw new Error('password length error');
+    else if (currentpassword.includes(' ') || password.includes(' '))
+      throw new Error('include space');
+    else if (password !== passwordconfirm)
+      throw new Error('password confirm error');
+    else if (!auth) {
+      throw new Error('incorrect current password');
+    } else {
+      const salt = await bcrypt.genSalt();
+      saltedPassword = await bcrypt.hash(password, salt);
+
+      const filter = { _id: user._id };
+      const update = { password: saltedPassword, updateAt: new Date() };
+
+      await User.findOneAndUpdate(filter, { $set: update });
+      res.status(200).json({ user: user });
+    }
+  } catch (err) {
+    const errors = errorHandler.handleErrors(err);
+    console.log(err);
+    res.status(400).json({ errors });
+  }
+};
+
 module.exports.forgotemail_post = async (req, res) => {
   const { username, phone } = req.body;
 

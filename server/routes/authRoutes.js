@@ -38,7 +38,7 @@ const stages = [
   { id: '1-6', title: 'Copiel : 1-6' },
 ];
 
-stages.forEach(stage => {
+stages.forEach((stage) => {
   router.get(`/${stage.id}`, (req, res) => {
     res.render(`./stages/${stage.id}`, { title: stage.title });
   });
@@ -47,6 +47,10 @@ stages.forEach(stage => {
 //auth routes(for logged users)
 router.get('/changeusername', requireAuth, (req, res) => {
   res.render('changeusername', { title: 'Copiel : 이름 바꾸기' });
+});
+
+router.get('/changepassword', requireAuth, (req, res) => {
+  res.render('changepassword', { title: 'Copiel : 비밀번호 바꾸기' });
 });
 
 router.get('/profile', requireAuth, (req, res) => {
@@ -63,6 +67,7 @@ router.get('/logout', (req, res) => {
 router.post('/signup', authController.signup_post);
 router.post('/login', authController.login_post);
 router.post('/changeusername', authController.changeusername_post);
+router.post('/changepassword', authController.changepassword_post);
 router.post('/forgotemail', authController.forgotemail_post);
 router.post('/forgotpassword', authController.forgotpassword_post);
 
