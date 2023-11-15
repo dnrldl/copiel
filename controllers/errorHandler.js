@@ -17,6 +17,9 @@ const handleErrors = err => {
   if (err.message === 'incorrect email')
     errors.email = '가입되지 않은 이메일입니다';
 
+  //wrong email
+  if (err.message === 'wrong email') errors.email = '이메일이 틀립니다.';
+
   //incorrect password
   if (err.message === 'incorrect password')
     errors.password = '비밀번호가 틀립니다';

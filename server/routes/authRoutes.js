@@ -57,6 +57,10 @@ router.get('/profile', requireAuth, (req, res) => {
   res.render('profile', { title: 'Copiel : 프로필' });
 });
 
+router.get('/deleteAcount', requireAuth, (req, res) => {
+  res.render('deleteAcount', { title: 'Copiel : 회원 탈퇴하기' });
+});
+
 //logout_get
 router.get('/logout', (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 }); //delete cookie(token)
@@ -70,5 +74,6 @@ router.post('/changeusername', authController.changeusername_post);
 router.post('/changepassword', authController.changepassword_post);
 router.post('/forgotemail', authController.forgotemail_post);
 router.post('/forgotpassword', authController.forgotpassword_post);
+router.post('/deleteAcount', authController.deleteAcount_post);
 
 module.exports = router;

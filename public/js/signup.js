@@ -58,7 +58,7 @@ form.addEventListener('submit', async e => {
       spaceError.textContent = data.errors.spaceerror;
     }
     if (data.user) {
-      alert('회원가입 완료되었습니다!');
+      alert('회원가입이 완료되었습니다!');
       location.assign('/login');
     }
   } catch (err) {

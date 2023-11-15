@@ -191,3 +191,32 @@ module.exports.forgotpassword_post = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
+
+module.exports.deleteAcount_post = async (req, res) => {
+  const { email, password } = req.body;
+
+  const token = req.cookies.jwt;
+
+  var decodedToken = await jwt.verify(token, 'copiel secret');
+  var user = await User.findById(decodedToken.id);
+
+  var authPw = await bcrypt.compare(password, user.password);
+
+  try {
+    if (email.includes(' ') || password.includes(' '))
+      throw new Error('include space');
+    else if (email !== user.email) {
+      throw new Error('wrong email');
+    } else if (!authPw) {
+      throw new Error('incorrect password');
+    } else {
+      console.log(user._id);
+      await User.findByIdAndDelete(user._id);
+      res.cookie('jwt', '', { maxAge: 1 }); //delete cookie(token)
+      res.status(200).json({ user });
+    }
+  } catch (err) {
+    const errors = errorHandler.handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
