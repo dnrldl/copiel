@@ -1,10 +1,11 @@
 //Handle Errors
-const handleErrors = (err) => {
+const handleErrors = err => {
   console.log(err.message, err.code);
   let errors = {
     email: '',
     password: '',
     passwordconfirm: '',
+    name: '',
     username: '',
     phone: '',
     spaceerror: '',
@@ -24,9 +25,13 @@ const handleErrors = (err) => {
   if (err.message === 'include space')
     errors.spaceerror = '입력란에 공백을 넣지 마세요';
 
+  //name length error
+  if (err.message === 'name length error')
+    errors.name = '2자리 이상의 이름을 입력해주세요';
+
   //username length error
   if (err.message === 'username length error')
-    errors.username = '2자리 이상의 이름을 입력해주세요';
+    errors.username = '2자리 이상의 닉네임을 입력해주세요';
 
   //phone length error
   if (err.message === 'phone length error')

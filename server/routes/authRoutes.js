@@ -38,7 +38,7 @@ const stages = [
   { id: '1-6', title: 'Copiel : 1-6' },
 ];
 
-stages.forEach((stage) => {
+stages.forEach(stage => {
   router.get(`/${stage.id}`, (req, res) => {
     res.render(`./stages/${stage.id}`, { title: stage.title });
   });
@@ -46,7 +46,7 @@ stages.forEach((stage) => {
 
 //auth routes(for logged users)
 router.get('/changeusername', requireAuth, (req, res) => {
-  res.render('changeusername', { title: 'Copiel : 이름 바꾸기' });
+  res.render('changeusername', { title: 'Copiel : 닉네임 바꾸기' });
 });
 
 router.get('/changepassword', requireAuth, (req, res) => {

@@ -2,6 +2,7 @@ const form = document.querySelector('form');
 const emailError = document.querySelector('.email.error');
 const passwordError = document.querySelector('.password.error');
 const passwordconfirmError = document.querySelector('.passwordconfirm.error');
+const nameError = document.querySelector('.name.error');
 const usernameError = document.querySelector('.username.error');
 const phoneError = document.querySelector('.phone.error');
 const spaceError = document.querySelector('.space.error');
@@ -19,6 +20,7 @@ form.addEventListener('submit', async e => {
   emailError.textContent = '';
   passwordError.textContent = '';
   passwordconfirmError.textContent = '';
+  nameError.textContent = '';
   usernameError.textContent = '';
   phoneError.textContent = '';
   spaceError.textContent = '';
@@ -27,6 +29,7 @@ form.addEventListener('submit', async e => {
   const email = form.email.value;
   const password = form.password.value;
   const passwordconfirm = form.passwordconfirm.value;
+  const name = form.name.value;
   const username = form.username.value;
   const phone = form.phone.value;
 
@@ -37,6 +40,7 @@ form.addEventListener('submit', async e => {
         email: email,
         password: password,
         passwordconfirm: passwordconfirm,
+        name: name,
         username: username,
         phone: phone,
       }),
@@ -48,6 +52,7 @@ form.addEventListener('submit', async e => {
       emailError.textContent = data.errors.email;
       passwordError.textContent = data.errors.password;
       passwordconfirmError.textContent = data.errors.passwordconfirm;
+      nameError.textContent = data.errors.name;
       usernameError.textContent = data.errors.username;
       phoneError.textContent = data.errors.phone;
       spaceError.textContent = data.errors.spaceerror;

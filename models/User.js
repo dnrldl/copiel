@@ -18,9 +18,13 @@ const userSchema = new Schema({
     required: [true, '비밀번호를 입력해주세요'],
     minLength: [6, '최소 6자리 이상 입력해주세요'],
   },
-  username: {
+  name: {
     type: String,
     required: [true, '이름을 입력해주세요'],
+  },
+  username: {
+    type: String,
+    required: [true, '닉네임을 입력해주세요'],
   },
   phone: {
     type: String,

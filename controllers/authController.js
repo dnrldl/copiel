@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
+const createToken = id => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -27,17 +27,29 @@ function generateTempPassword(length) {
 }
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password, passwordconfirm, username, phone } = req.body;
+  const { email, password, passwordconfirm, name, username, phone } = req.body;
 
   try {
-    if (email.includes(' ') || password.includes(' ') || username.includes(' '))
+    if (
+      email.includes(' ') ||
+      password.includes(' ') ||
+      name.includes(' ') ||
+      username.includes(' ')
+    )
       throw new Error('include space');
+    else if (name.length < 2) throw new Error('name length error');
     else if (username.length < 2) throw new Error('username length error');
     else if (phone.length !== 13) throw new Error('phone length error');
     else if (password !== passwordconfirm)
       throw new Error('password confirm error');
     else {
-      const user = await User.create({ email, password, username, phone });
+      const user = await User.create({
+        email,
+        password,
+        name,
+        username,
+        phone,
+      });
       res.status(201).json({ user: user._id });
     }
   } catch (err) {
@@ -121,14 +133,14 @@ module.exports.changepassword_post = async (req, res) => {
 };
 
 module.exports.forgotemail_post = async (req, res) => {
-  const { username, phone } = req.body;
+  const { name, phone } = req.body;
 
   try {
-    if (username.includes(' ')) throw new Error('include space');
-    else if (username.length < 2) throw new Error('username length error');
+    if (name.includes(' ')) throw new Error('include space');
+    else if (name.length < 2) throw new Error('name length error');
     else {
       const user = await User.findOne({
-        username: username,
+        name: name,
         phone: phone,
       });
       if (user == null) {
@@ -146,16 +158,16 @@ module.exports.forgotemail_post = async (req, res) => {
 };
 
 module.exports.forgotpassword_post = async (req, res) => {
-  const { email, username, phone } = req.body;
+  const { email, name, phone } = req.body;
 
   try {
-    if (email.includes(' ') || username.includes(' '))
+    if (email.includes(' ') || name.includes(' '))
       throw new Error('include space');
-    else if (username.length < 2) throw new Error('username length error');
+    else if (name.length < 2) throw new Error('name length error');
     else {
       const user = await User.findOne({
         email: email,
-        username: username,
+        name: name,
         phone: phone,
       });
       if (user == null) throw new Error('find acount is null');
