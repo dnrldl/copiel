@@ -24,6 +24,11 @@ const handleErrors = err => {
   if (err.message === 'incorrect password')
     errors.password = '비밀번호가 틀립니다';
 
+  //password form error
+  if (err.message === 'password form error')
+    errors.password =
+      '영문, 숫자, 특수문자를 하나 이상 포함하는 6~16자리의 비밀번호를 입력해주세요';
+
   //include space
   if (err.message === 'include space')
     errors.spaceerror = '입력란에 공백을 넣지 마세요';

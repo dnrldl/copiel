@@ -4,6 +4,17 @@ const errorHandler = require('./errorHandler');
 const sendMail = require('./sendMail');
 const bcrypt = require('bcrypt');
 
+//영문, 숫자, 특수문자를 하나 이상 포함하는 6~16자리의 비밀번호
+function authPw(password) {
+  var pattern =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,16}$/;
+  if (pattern.test(password)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = id => {
@@ -37,6 +48,7 @@ module.exports.signup_post = async (req, res) => {
       username.includes(' ')
     )
       throw new Error('include space');
+    else if (!authPw(password)) throw new Error('password form error');
     else if (name.length < 2) throw new Error('name length error');
     else if (username.length < 2) throw new Error('username length error');
     else if (phone.length !== 13) throw new Error('phone length error');
@@ -111,6 +123,7 @@ module.exports.changepassword_post = async (req, res) => {
     if (password.length < 6) throw new Error('password length error');
     else if (currentpassword.includes(' ') || password.includes(' '))
       throw new Error('include space');
+    else if (!authPw(password)) throw new Error('password form error');
     else if (password !== passwordconfirm)
       throw new Error('password confirm error');
     else if (!auth) {

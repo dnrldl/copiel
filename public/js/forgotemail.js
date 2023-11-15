@@ -42,7 +42,7 @@ form.addEventListener('submit', async e => {
       findError.textContent = data.errors.finderror;
     }
     if (data.user) {
-      alert('찾으실 이메일은 ' + data.user.email + '입니다');
+      alert('찾으신 이메일은 ' + data.user.email + '입니다');
       location.assign('/login');
     }
   } catch (err) {
