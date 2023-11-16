@@ -17,7 +17,7 @@ function authPw(password) {
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = id => {
+const createToken = (id) => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -228,6 +228,19 @@ module.exports.deleteAcount_post = async (req, res) => {
       res.cookie('jwt', '', { maxAge: 1 }); //delete cookie(token)
       res.status(200).json({ user });
     }
+  } catch (err) {
+    const errors = errorHandler.handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
+
+module.exports.getUserScore_post = async (req, res) => {
+  try {
+    const leaderboardData = await User.find(
+      {},
+      { username: 1, score: 1, _id: 0 }
+    ).sort({ score: -1 });
+    res.status(200).json({ leaderboardData });
   } catch (err) {
     const errors = errorHandler.handleErrors(err);
     res.status(400).json({ errors });
