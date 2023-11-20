@@ -1,0 +1,54 @@
+[
+  {
+    "category": "문자열",
+    "question": "파이썬은 어떤 언어 일까요?",
+    "correct_answer": "간단하지만 효과적인 객체지향",
+    "incorrect_answers": [
+      "한국에서 만들어진",
+      "일부 전문가만 사용하도록 만들어진",
+      "하드웨어"
+    ]
+  },
+  {
+    "category": "Entertainment: Video Games",
+    "question": "In Undertale, what&#039;s the prize for answering correctly?",
+    "correct_answer": "More questions",
+    "incorrect_answers": ["New car", "Mercy", "Money"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "Geography",
+    "question": "What is the capital city of New Zealand?",
+    "correct_answer": "Wellington",
+    "incorrect_answers": ["Auckland", "Christchurch", "Melbourne"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "Geography",
+    "question": "How many time zones are in Russia?",
+    "correct_answer": "11",
+    "incorrect_answers": ["8", "5", "2"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "easy",
+    "category": "Entertainment: Japanese Anime &amp; Manga",
+    "question": "In 2013, virtual pop-star Hatsune Miku had a sponsorship with which pizza chain?",
+    "correct_answer": "Domino&#039;s",
+    "incorrect_answers": ["Papa John&#039;s", "Pizza Hut", "Sabarro&#039;s"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "History",
+    "question": "Which Nazi General was known as the &quot;Desert Fox&quot;?",
+    "correct_answer": "Erwin Rommel",
+    "incorrect_answers": [
+      "Gerd von Rundstadt",
+      "Wilhelm Keitel",
+      "Heinz Guderian "
+    ]
+  }
+]

@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const gameSetupDiv = document.getElementById('game-setup');
   const quizDiv = document.getElementById('quiz');
   const categorySelect = document.getElementById('category');
-  const difficultySelect = document.getElementById('difficulty');
   const startButton = document.getElementById('start-btn');
 
   let currentQuestions = [];
@@ -20,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const baseScorePerQuestion = 1000;
   const penaltyPerSecond = 10;
 
-  highScoreDisplay.innerText = `High Score: ${highScore}`;
+  startButton.disabled = true;
+  highScoreDisplay.innerText = `최고 점수: ${highScore}점`;
 
   function fetchCategories() {
     const categoryJsonFilePath = '../categories/categories.json';
@@ -39,24 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     const category = categorySelect.value;
-    const difficulty = difficultySelect.value;
-    fetchQuestions(category, difficulty);
+    fetchQuestions(category);
     gameSetupDiv.style.display = 'none';
     quizDiv.style.display = 'block';
   }
 
-  function fetchQuestions(category, difficulty) {
+  function fetchQuestions(category) {
     var questionJsonFilePath = '../questions';
-
-    if (difficulty === 'easy') {
-      questionJsonFilePath += '/easyQ.json';
-    } else if (difficulty === 'medium') {
-      questionJsonFilePath += '/mediumQ.json';
-    } else if (difficulty === 'hard') {
-      questionJsonFilePath += '/hardQ.json';
-    } else {
-      questionJsonFilePath += '/anyQ.json';
-    }
+    if (category == 1) questionJsonFilePath += '/stage1.json';
+    else if (category == 2) questionJsonFilePath += '/stage2.json';
+    else if (category == 3) questionJsonFilePath += '/stage3.json';
+    else if (category == 4) questionJsonFilePath += '/stage4.json';
+    else if (category == 5) questionJsonFilePath += '/stage5.json';
+    else if (category == 6) questionJsonFilePath += '/stage6.json';
 
     fetch(questionJsonFilePath)
       .then(response => response.json())
@@ -71,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-  function displayQuestion() {
+  async function displayQuestion() {
     if (questionIndex < currentQuestions.length) {
       let currentQuestion = currentQuestions[questionIndex];
       questionContainer.innerHTML = decodeHTML(currentQuestion.question);
@@ -81,6 +76,23 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       updateHighScore();
       showResults();
+      try {
+        const res = await fetch('/sendUserScore', {
+          method: 'POST',
+          body: JSON.stringify({
+            score: score,
+          }),
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await res.json();
+
+        if (data.errors) {
+        }
+        if (data.user) {
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
@@ -120,13 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (decodeHTML(selectedButton.innerHTML) === decodeHTML(correctAnswer)) {
       score += scoreForThisQuestion;
       selectedButton.classList.add('correct');
-      resultContainer.innerText = `Correct! + ${scoreForThisQuestion} Points`;
+      resultContainer.innerText = `정답! + ${scoreForThisQuestion} 점`;
     } else {
       selectedButton.classList.add('incorrect');
       correctButton.classList.add('correct');
-      resultContainer.innerText = `Wrong! The correct answer was: ${decodeHTML(
+      resultContainer.innerHTML = `오답! 정답은:   <b>${decodeHTML(
         correctAnswer
-      )}`;
+      )}</b>  이었어요`;
     }
 
     updateCurrentScore();
@@ -138,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateCurrentScore() {
-    currentScoreDisplay.innerText = `Current Score: ${score}`;
+    currentScoreDisplay.innerText = `현재 점수: ${score}`;
   }
 
   function disableButtons() {
@@ -149,13 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showResults() {
-    questionContainer.innerText = 'Quiz Finished!';
+    questionContainer.innerText = '완료!';
     answersContainer.innerHTML = '';
-    resultContainer.innerText = `Your final score is ${score}`;
+    resultContainer.innerText = `최종 점수는 ${score}점 입니다!`;
     updateHighScoreDisplay();
     progressContainer.innerText = '';
     const restartButton = document.createElement('button');
-    restartButton.textContent = 'Restart Quiz';
+    restartButton.textContent = '재시작';
     restartButton.addEventListener('click', () => {
       quizDiv.style.display = 'none';
       gameSetupDiv.style.display = 'block';
@@ -172,11 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateHighScoreDisplay() {
-    highScoreDisplay.innerText = `High Score: ${highScore}`;
+    highScoreDisplay.innerText = `최고 점수: ${highScore}`;
   }
 
   function updateProgress() {
-    progressContainer.innerText = `Question ${questionIndex + 1}/${
+    progressContainer.innerText = `문제 ${questionIndex + 1}/${
       currentQuestions.length
     }`;
   }
@@ -194,7 +206,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return txt.value;
   }
 
-  startButton.addEventListener('click', startGame);
-
   fetchCategories();
+
+  categorySelect.addEventListener('change', function () {
+    // 선택된 난이도 값
+    var selectedCategory = categorySelect.value;
+
+    // 난이도가 선택되었는지 확인
+    if (selectedCategory !== '') {
+      // 선택되었으면 버튼 활성화
+      startButton.disabled = false;
+    } else {
+      // 선택되지 않았으면 버튼 비활성화
+      startButton.disabled = true;
+    }
+  });
+
+  startButton.addEventListener('click', startGame);
 });

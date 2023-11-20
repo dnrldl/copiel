@@ -7,6 +7,13 @@ body {
   font-family: 'Poppins', 'sans-serif';
 }
 
+#content-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 /* nav bar */
 p,
 h1,
@@ -252,13 +259,8 @@ h1 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-#content-area {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
 
+/* quiz */
 #quiz-container {
   width: 420px;
   background-color: #fff;

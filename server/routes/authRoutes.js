@@ -31,22 +31,6 @@ router.get('/selectquiz', (req, res) =>
   res.render('selectQuiz', { title: 'Copiel : 퀴즈' })
 );
 
-//stage routes
-const stages = [
-  { id: '1-1', title: 'Copiel : 1-1' },
-  { id: '1-2', title: 'Copiel : 1-2' },
-  { id: '1-3', title: 'Copiel : 1-3' },
-  { id: '1-4', title: 'Copiel : 1-4' },
-  { id: '1-5', title: 'Copiel : 1-5' },
-  { id: '1-6', title: 'Copiel : 1-6' },
-];
-
-stages.forEach((stage) => {
-  router.get(`/${stage.id}`, (req, res) => {
-    res.render(`./stages/${stage.id}`, { title: stage.title });
-  });
-});
-
 //auth routes(for logged users)
 router.get('/changeusername', requireAuth, (req, res) => {
   res.render('changeusername', { title: 'Copiel : 닉네임 바꾸기' });
@@ -79,5 +63,6 @@ router.post('/forgotemail', authController.forgotemail_post);
 router.post('/forgotpassword', authController.forgotpassword_post);
 router.post('/deleteAcount', authController.deleteAcount_post);
 router.post('/getUserScore', authController.getUserScore_post);
+router.post('/sendUserScore', authController.sendUserScore_post);
 
 module.exports = router;

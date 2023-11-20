@@ -17,7 +17,7 @@ function authPw(password) {
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
+const createToken = id => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -241,6 +241,30 @@ module.exports.getUserScore_post = async (req, res) => {
       { username: 1, score: 1, _id: 0 }
     ).sort({ score: -1 });
     res.status(200).json({ leaderboardData });
+  } catch (err) {
+    const errors = errorHandler.handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
+
+module.exports.sendUserScore_post = async (req, res) => {
+  const { score } = req.body;
+  const token = req.cookies.jwt;
+
+  try {
+    if (token == undefined) throw new Error('unlogged user');
+    else {
+      var decodedToken = await jwt.verify(token, 'copiel secret');
+      var user = await User.findById(decodedToken.id);
+
+      if (user.score < score) {
+        const filter = { _id: user._id };
+        const update = { score: score, updateAt: new Date() };
+
+        await User.findOneAndUpdate(filter, { $set: update });
+        res.status(200).json({ user: user });
+      } else res.status(200).json({ user: user });
+    }
   } catch (err) {
     const errors = errorHandler.handleErrors(err);
     res.status(400).json({ errors });
