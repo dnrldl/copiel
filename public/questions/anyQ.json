@@ -1,0 +1,90 @@
+[
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "Entertainment: Television",
+    "question": "Which of the following was not an actor/actress on the American television show &quot;Saturday Night Live&quot; in Season 42?",
+    "correct_answer": "Tina Fey",
+    "incorrect_answers": ["Mikey Day", "Kate McKinnon", "Sasheer Zamata"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "easy",
+    "category": "Entertainment: Video Games",
+    "question": "In Undertale, what&#039;s the prize for answering correctly?",
+    "correct_answer": "More questions",
+    "incorrect_answers": ["New car", "Mercy", "Money"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "Geography",
+    "question": "What is the capital city of New Zealand?",
+    "correct_answer": "Wellington",
+    "incorrect_answers": ["Auckland", "Christchurch", "Melbourne"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "Geography",
+    "question": "How many time zones are in Russia?",
+    "correct_answer": "11",
+    "incorrect_answers": ["8", "5", "2"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "easy",
+    "category": "Entertainment: Japanese Anime &amp; Manga",
+    "question": "In 2013, virtual pop-star Hatsune Miku had a sponsorship with which pizza chain?",
+    "correct_answer": "Domino&#039;s",
+    "incorrect_answers": ["Papa John&#039;s", "Pizza Hut", "Sabarro&#039;s"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "History",
+    "question": "Which Nazi General was known as the &quot;Desert Fox&quot;?",
+    "correct_answer": "Erwin Rommel",
+    "incorrect_answers": [
+      "Gerd von Rundstadt",
+      "Wilhelm Keitel",
+      "Heinz Guderian "
+    ]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "Celebrities",
+    "question": "What year did radio icon Howard Stern start a job at radio station WNBC?",
+    "correct_answer": "1982",
+    "incorrect_answers": ["1985", "1984", "1995"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "medium",
+    "category": "Entertainment: Television",
+    "question": "Which of these television shows makes everyone look under their chair?",
+    "correct_answer": "Oprah",
+    "incorrect_answers": ["Jimmy Fallon", "Saturday Night Live", "Larry Rubert"]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "easy",
+    "category": "Science: Computers",
+    "question": "HTML is what type of language?",
+    "correct_answer": "Markup Language",
+    "incorrect_answers": [
+      "Macro Language",
+      "Programming Language",
+      "Scripting Language"
+    ]
+  },
+  {
+    "type": "multiple",
+    "difficulty": "easy",
+    "category": "Animals",
+    "question": "What is the collective noun for a group of crows?",
+    "correct_answer": "Murder",
+    "incorrect_answers": ["Pack", "Gaggle", "Herd"]
+  }
+]

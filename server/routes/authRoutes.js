@@ -27,6 +27,9 @@ router.get('/forgotpassword', preventEnter, (req, res) =>
 router.get('/leaderboard', (req, res) =>
   res.render('leaderboard', { title: 'Copiel : 리더보드' })
 );
+router.get('/selectquiz', (req, res) =>
+  res.render('selectQuiz', { title: 'Copiel : 퀴즈' })
+);
 
 //stage routes
 const stages = [

@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <%- include('../partials/header.ejs') %> <%- body %> <%-
-    include('../partials/footer.ejs') %>
+    <!-- header -->
+    <%- include('../partials/header.ejs') %>
+    <!-- main -->
+    <div id="content-area"><%- body %></div>
+    <!-- footer -->
+    <%- include('../partials/footer.ejs') %>
   </body>
 </html>
