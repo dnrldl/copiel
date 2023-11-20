@@ -35,7 +35,27 @@ const userSchema = new Schema({
     type: String,
     default: 0,
   },
-  score: {
+  score1: {
+    type: Number,
+    default: 0,
+  },
+  score2: {
+    type: Number,
+    default: 0,
+  },
+  score3: {
+    type: Number,
+    default: 0,
+  },
+  score4: {
+    type: Number,
+    default: 0,
+  },
+  score5: {
+    type: Number,
+    default: 0,
+  },
+  score6: {
     type: Number,
     default: 0,
   },

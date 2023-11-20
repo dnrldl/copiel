@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultContainer = document.getElementById('result');
   const progressContainer = document.getElementById('progress');
   const currentScoreDisplay = document.getElementById('currentScore');
-  const highScoreDisplay = document.getElementById('highScore');
   const gameSetupDiv = document.getElementById('game-setup');
   const quizDiv = document.getElementById('quiz');
   const categorySelect = document.getElementById('category');
@@ -13,14 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentQuestions = [];
   let score = 0;
   let questionIndex = 0;
-  let highScore = parseInt(localStorage.getItem('HighScoreTrivia')) || 0;
   let questionStartTime;
 
   const baseScorePerQuestion = 1000;
   const penaltyPerSecond = 10;
 
   startButton.disabled = true;
-  highScoreDisplay.innerText = `최고 점수: ${highScore}점`;
 
   function fetchCategories() {
     const categoryJsonFilePath = '../categories/categories.json';
@@ -28,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(categoryJsonFilePath)
       .then(response => response.json())
       .then(data => {
-        data.trivia_categories.forEach(category => {
+        data.categories.forEach(category => {
           const option = document.createElement('option');
           option.value = category.id;
           option.textContent = category.name;
@@ -74,13 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
       updateProgress();
       questionStartTime = Date.now();
     } else {
-      updateHighScore();
-      showResults();
       try {
         const res = await fetch('/sendUserScore', {
           method: 'POST',
           body: JSON.stringify({
             score: score,
+            category: categorySelect.value,
           }),
           headers: { 'Content-Type': 'application/json' },
         });
@@ -93,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         console.log(err);
       }
+      showResults();
     }
   }
 
@@ -163,8 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function showResults() {
     questionContainer.innerText = '완료!';
     answersContainer.innerHTML = '';
-    resultContainer.innerText = `최종 점수는 ${score}점 입니다!`;
-    updateHighScoreDisplay();
+    resultContainer.innerText = `최종 점수는 "${score}점" 입니다!`;
     progressContainer.innerText = '';
     const restartButton = document.createElement('button');
     restartButton.textContent = '재시작';
@@ -173,18 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
       gameSetupDiv.style.display = 'block';
     });
     answersContainer.appendChild(restartButton);
-  }
-
-  function updateHighScore() {
-    if (score > highScore) {
-      highScore = score;
-      localStorage.setItem('HighScoreTrivia', highScore.toString());
-      updateHighScoreDisplay();
-    }
-  }
-
-  function updateHighScoreDisplay() {
-    highScoreDisplay.innerText = `최고 점수: ${highScore}`;
   }
 
   function updateProgress() {
@@ -209,15 +193,11 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchCategories();
 
   categorySelect.addEventListener('change', function () {
-    // 선택된 난이도 값
     var selectedCategory = categorySelect.value;
 
-    // 난이도가 선택되었는지 확인
     if (selectedCategory !== '') {
-      // 선택되었으면 버튼 활성화
       startButton.disabled = false;
     } else {
-      // 선택되지 않았으면 버튼 비활성화
       startButton.disabled = true;
     }
   });

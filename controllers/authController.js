@@ -6,9 +6,31 @@ const bcrypt = require('bcrypt');
 
 //영문, 숫자, 특수문자를 하나 이상 포함하는 6~16자리의 비밀번호
 function authPw(password) {
-  var pattern =
+  const pattern =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,16}$/;
   if (pattern.test(password)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//한글 또는 영어 대소문자가 2에서 10글자 반복되어야 함 중간에는 한글이 아닌 문자가 0번 이상 반복될 수 있음
+function authUsername(username) {
+  const pattern = /^[^가-힣]*[가-힣A-Za-z]{2,10}[^가-힣]*$/;
+
+  if (pattern.test(username)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//우리나라 이름
+function authName(name) {
+  const pattern = /^[^가-힣]*[가-힣]{2,4}[^가-힣]*$/;
+
+  if (pattern.test(name)) {
     return true;
   } else {
     return false;
@@ -49,8 +71,8 @@ module.exports.signup_post = async (req, res) => {
     )
       throw new Error('include space');
     else if (!authPw(password)) throw new Error('password form error');
-    else if (name.length < 2) throw new Error('name length error');
-    else if (username.length < 2) throw new Error('username length error');
+    else if (!authName(name)) throw new Error('name error');
+    else if (!authUsername(username)) throw new Error('username error');
     else if (phone.length !== 13) throw new Error('phone length error');
     else if (password !== passwordconfirm)
       throw new Error('password confirm error');
@@ -93,7 +115,7 @@ module.exports.changeusername_post = async (req, res) => {
   const token = req.cookies.jwt;
 
   try {
-    if (username.length < 2) throw new Error('username length error');
+    if (!authUsername(username)) throw new Error('username error');
     else {
       jwt.verify(token, 'copiel secret', async (err, decodedToken) => {
         const user = await User.findById(decodedToken.id);
@@ -248,7 +270,7 @@ module.exports.getUserScore_post = async (req, res) => {
 };
 
 module.exports.sendUserScore_post = async (req, res) => {
-  const { score } = req.body;
+  const { score, category } = req.body;
   const token = req.cookies.jwt;
 
   try {
@@ -256,10 +278,11 @@ module.exports.sendUserScore_post = async (req, res) => {
     else {
       var decodedToken = await jwt.verify(token, 'copiel secret');
       var user = await User.findById(decodedToken.id);
+      var userScoreName = 'score' + category;
 
-      if (user.score < score) {
+      if (user[userScoreName] < score) {
         const filter = { _id: user._id };
-        const update = { score: score, updateAt: new Date() };
+        const update = { [userScoreName]: score, updateAt: new Date() };
 
         await User.findOneAndUpdate(filter, { $set: update });
         res.status(200).json({ user: user });

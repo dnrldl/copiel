@@ -1,5 +1,5 @@
 {
-  "trivia_categories": [
+  "categories": [
     {
       "id": 1,
       "name": "기초 문법, 변수"

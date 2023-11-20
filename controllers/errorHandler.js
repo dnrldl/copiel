@@ -34,12 +34,12 @@ const handleErrors = err => {
     errors.spaceerror = '입력란에 공백을 넣지 마세요';
 
   //name length error
-  if (err.message === 'name length error')
-    errors.name = '2자리 이상의 이름을 입력해주세요';
+  if (err.message === 'name error')
+    errors.name = '2자리 이상의 이름을 올바르게 입력해주세요';
 
   //username length error
-  if (err.message === 'username length error')
-    errors.username = '2자리 이상의 닉네임을 입력해주세요';
+  if (err.message === 'username error')
+    errors.username = '2~10자리의 닉네임을 올바르게 입력해주세요';
 
   //phone length error
   if (err.message === 'phone length error')

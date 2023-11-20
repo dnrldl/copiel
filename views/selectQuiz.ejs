@@ -11,7 +11,9 @@
   <div id="quiz" style="display: none">
     <div id="progress"></div>
     <div id="currentScore"></div>
+    <% if (user) { %>
     <div id="highScore">나의 최고 점수: <%= user.score %>점</div>
+    <% } else {} %>
     <div id="question"></div>
     <div id="answers"></div>
     <div id="result"></div>
