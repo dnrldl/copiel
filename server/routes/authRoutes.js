@@ -41,7 +41,7 @@ const stages = [
   { id: '1-6', title: 'Copiel : 1-6' },
 ];
 
-stages.forEach(stage => {
+stages.forEach((stage) => {
   router.get(`/${stage.id}`, (req, res) => {
     res.render(`./stages/${stage.id}`, { title: stage.title });
   });
@@ -78,5 +78,6 @@ router.post('/changepassword', authController.changepassword_post);
 router.post('/forgotemail', authController.forgotemail_post);
 router.post('/forgotpassword', authController.forgotpassword_post);
 router.post('/deleteAcount', authController.deleteAcount_post);
+router.post('/getUserScore', authController.getUserScore_post);
 
 module.exports = router;
