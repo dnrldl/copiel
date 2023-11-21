@@ -64,5 +64,6 @@ router.post('/forgotpassword', authController.forgotpassword_post);
 router.post('/deleteAcount', authController.deleteAcount_post);
 router.post('/getUserScore', authController.getUserScore_post);
 router.post('/sendUserScore', authController.sendUserScore_post);
+router.post('/getLoggedUserScore', authController.getLoggedUserScore_post);
 
 module.exports = router;

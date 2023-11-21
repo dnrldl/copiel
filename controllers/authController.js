@@ -39,7 +39,7 @@ function authName(name) {
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = id => {
+const createToken = (id) => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -260,7 +260,16 @@ module.exports.getUserScore_post = async (req, res) => {
   try {
     const leaderboardData = await User.find(
       {},
-      { username: 1, score: 1, _id: 0 }
+      {
+        username: 1,
+        score1: 1,
+        score2: 1,
+        score3: 1,
+        score4: 1,
+        score5: 1,
+        score6: 1,
+        _id: 0,
+      }
     ).sort({ score: -1 });
     res.status(200).json({ leaderboardData });
   } catch (err) {
@@ -287,6 +296,23 @@ module.exports.sendUserScore_post = async (req, res) => {
         await User.findOneAndUpdate(filter, { $set: update });
         res.status(200).json({ user: user });
       } else res.status(200).json({ user: user });
+    }
+  } catch (err) {
+    const errors = errorHandler.handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
+module.exports.getLoggedUserScore_post = async (req, res) => {
+  const { category } = req.body;
+  const token = req.cookies.jwt;
+
+  try {
+    if (token == undefined) throw new Error('unlogged user');
+    else {
+      var decodedToken = await jwt.verify(token, 'copiel secret');
+      var user = await User.findById(decodedToken.id);
+
+      res.status(200).json({ user: user });
     }
   } catch (err) {
     const errors = errorHandler.handleErrors(err);

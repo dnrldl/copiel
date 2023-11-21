@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const quizDiv = document.getElementById('quiz');
   const categorySelect = document.getElementById('category');
   const startButton = document.getElementById('start-btn');
+  const highScoreDisplay = document.getElementById('highScore');
 
   let currentQuestions = [];
   let score = 0;
@@ -23,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryJsonFilePath = '../categories/categories.json';
 
     fetch(categoryJsonFilePath)
-      .then(response => response.json())
-      .then(data => {
-        data.categories.forEach(category => {
+      .then((response) => response.json())
+      .then((data) => {
+        data.categories.forEach((category) => {
           const option = document.createElement('option');
           option.value = category.id;
           option.textContent = category.name;
@@ -34,9 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-  function startGame() {
+  async function startGame() {
     const category = categorySelect.value;
     fetchQuestions(category);
+    try {
+      const res = await fetch('/getLoggedUserScore', {
+        method: 'POST',
+        body: JSON.stringify({
+          category: categorySelect.value,
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json();
+      var userHighScore = 'score' + category;
+      if (data.user[userHighScore] == 0) highScoreDisplay.innerText == '';
+      else
+        highScoreDisplay.innerText = `나의 최고 점수: ${data.user[userHighScore]} 점`;
+    } catch (err) {
+      console.log(err);
+    }
     gameSetupDiv.style.display = 'none';
     quizDiv.style.display = 'block';
   }
@@ -51,14 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (category == 6) questionJsonFilePath += '/stage6.json';
 
     fetch(questionJsonFilePath)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         currentQuestions = data;
         questionIndex = 0;
         score = 0;
         displayQuestion();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Fetch error:', error);
       });
   }
@@ -81,11 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: { 'Content-Type': 'application/json' },
         });
         const data = await res.json();
-
-        if (data.errors) {
-        }
-        if (data.user) {
-        }
       } catch (err) {
         console.log(err);
       }
@@ -98,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const answers = [...question.incorrect_answers, question.correct_answer];
     shuffleArray(answers);
 
-    answers.forEach(answer => {
+    answers.forEach((answer) => {
       const button = document.createElement('button');
       button.innerHTML = decodeHTML(answer);
       button.className = 'answer-btn';
@@ -118,10 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     disableButtons();
     let correctButton;
-    answers.forEach(answer => {
+    answers.forEach((answer) => {
       if (decodeHTML(answer) === decodeHTML(correctAnswer)) {
         correctButton = [...answersContainer.childNodes].find(
-          button => button.innerHTML === decodeHTML(correctAnswer)
+          (button) => button.innerHTML === decodeHTML(correctAnswer)
         );
       }
     });
