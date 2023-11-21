@@ -67,12 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function fetchQuestions(category) {
     var questionJsonFilePath = '../questions';
-    if (category == 1) questionJsonFilePath += '/stage1.json';
-    else if (category == 2) questionJsonFilePath += '/stage2.json';
-    else if (category == 3) questionJsonFilePath += '/stage3.json';
-    else if (category == 4) questionJsonFilePath += '/stage4.json';
-    else if (category == 5) questionJsonFilePath += '/stage5.json';
-    else if (category == 6) questionJsonFilePath += '/stage6.json';
+    if (category == 1) questionJsonFilePath += '/selectStage1.json';
+    else if (category == 2) questionJsonFilePath += '/selectStage2.json';
+    else if (category == 3) questionJsonFilePath += '/selectStage3.json';
+    else if (category == 4) questionJsonFilePath += '/selectStage4.json';
+    else if (category == 5) questionJsonFilePath += '/selectStage5.json';
+    else if (category == 6) questionJsonFilePath += '/selectStage6.json';
 
     fetch(questionJsonFilePath)
       .then((response) => response.json())
@@ -243,8 +243,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function penaltyForHint(score) {
-    if (score < 100) return 0;
-    else return (score -= penaltyHint);
+    if (score < 100) {
+      return 0;
+    } else return (score -= penaltyHint);
   }
 
   fetchCategories();

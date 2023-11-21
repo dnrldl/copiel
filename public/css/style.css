@@ -314,7 +314,13 @@ h1 {
   transform: scale(1.05);
 }
 
-#progress,
+#progress{
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #444;
+}
+
 #currentScore,
 #highScore {
   margin-bottom: 10px;
