@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const questionContainer = document.getElementById('question');
+  const hintContainer = document.getElementById('hint');
   const answersContainer = document.getElementById('answers');
   const resultContainer = document.getElementById('result');
   const progressContainer = document.getElementById('progress');
@@ -8,15 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const quizDiv = document.getElementById('quiz');
   const categorySelect = document.getElementById('category');
   const startButton = document.getElementById('start-btn');
+  const hintButton = document.getElementById('hint-btn');
   const highScoreDisplay = document.getElementById('highScore');
 
   let currentQuestions = [];
   let score = 0;
+  let hint = '';
   let questionIndex = 0;
   let questionStartTime;
+  let useHint = false;
+  let selectedCategory;
 
   const baseScorePerQuestion = 1000;
   const penaltyPerSecond = 10;
+  const penaltyHint = 100;
 
   startButton.disabled = true;
 
@@ -47,15 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await res.json();
-      var userHighScore = 'score' + category;
-      if (data.user[userHighScore] == 0) highScoreDisplay.innerText == '';
+      selectedCategory = 'score' + category;
+      if (data.user[selectedCategory] == 0) highScoreDisplay.innerText == '';
       else
-        highScoreDisplay.innerText = `나의 최고 점수: ${data.user[userHighScore]} 점`;
+        highScoreDisplay.innerText = `나의 최고 점수: ${data.user[selectedCategory]} 점`;
     } catch (err) {
       console.log(err);
     }
     gameSetupDiv.style.display = 'none';
     quizDiv.style.display = 'block';
+    hintButton.style.display = 'block';
   }
 
   function fetchQuestions(category) {
@@ -82,12 +89,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function displayQuestion() {
     if (questionIndex < currentQuestions.length) {
+      useHint = false;
       let currentQuestion = currentQuestions[questionIndex];
+      hint = currentQuestion.hint;
+      hintButton.addEventListener('click', () => {
+        useHint = true;
+        displayHints(hint);
+        score = penaltyForHint(score);
+      });
       questionContainer.innerHTML = decodeHTML(currentQuestion.question);
       displayAnswers(currentQuestion);
       updateProgress();
       questionStartTime = Date.now();
     } else {
+      let user;
       try {
         const res = await fetch('/sendUserScore', {
           method: 'POST',
@@ -98,11 +113,26 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: { 'Content-Type': 'application/json' },
         });
         const data = await res.json();
+        user = data;
       } catch (err) {
         console.log(err);
       }
-      showResults();
+      if (score > user.user[selectedCategory])
+        highScoreDisplay.innerHTML = `나의 최고 점수: ${score}점`;
+      else
+        highScoreDisplay.innerHTML = `나의 최고 점수: ${user.user[selectedCategory]}점`;
+      showResults(categorySelect.value);
     }
+  }
+
+  function displayHints(hint) {
+    hintContainer.innerHTML = '';
+    var hint = hint;
+
+    const string = document.createElement('div');
+    string.innerHTML = decodeHTML(hint);
+    string.className = 'hint-str';
+    hintContainer.appendChild(string);
   }
 
   function displayAnswers(question) {
@@ -139,6 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (decodeHTML(selectedButton.innerHTML) === decodeHTML(correctAnswer)) {
+      if (useHint) {
+        scoreForThisQuestion = penaltyForHint(scoreForThisQuestion);
+      }
       score += scoreForThisQuestion;
       selectedButton.classList.add('correct');
       resultContainer.innerText = `정답! + ${scoreForThisQuestion} 점`;
@@ -155,11 +188,12 @@ document.addEventListener('DOMContentLoaded', () => {
       questionIndex++;
       displayQuestion();
       resultContainer.innerText = '';
-    }, 3000);
+      hintButton.disabled = false;
+    }, 1750);
   }
 
   function updateCurrentScore() {
-    currentScoreDisplay.innerText = `현재 점수: ${score}`;
+    currentScoreDisplay.innerText = `현재 점수: ${score}점`;
   }
 
   function disableButtons() {
@@ -167,26 +201,32 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let button of buttons) {
       button.disabled = true;
     }
+    hintButton.disabled = true;
   }
 
-  function showResults() {
-    questionContainer.innerText = '완료!';
+  function showResults(categorySelect) {
+    questionContainer.innerHTML = `<b>스테이지 ${categorySelect}</b> 클리어!`;
     answersContainer.innerHTML = '';
     resultContainer.innerText = `최종 점수는 "${score}점" 입니다!`;
     progressContainer.innerText = '';
+    hintContainer.innerHTML = '';
     const restartButton = document.createElement('button');
     restartButton.textContent = '재시작';
     restartButton.addEventListener('click', () => {
       quizDiv.style.display = 'none';
       gameSetupDiv.style.display = 'block';
+      hintButton.style.display = 'none';
+      resultContainer.innerHTML = '';
     });
     answersContainer.appendChild(restartButton);
+    hintButton.style.display = 'none';
   }
 
   function updateProgress() {
     progressContainer.innerText = `문제 ${questionIndex + 1}/${
       currentQuestions.length
     }`;
+    hintContainer.innerHTML = '';
   }
 
   function shuffleArray(array) {
@@ -200,6 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
     var txt = document.createElement('textarea');
     txt.innerHTML = html;
     return txt.value;
+  }
+
+  function penaltyForHint(score) {
+    if (score < 100) return 0;
+    else return (score -= penaltyHint);
   }
 
   fetchCategories();
