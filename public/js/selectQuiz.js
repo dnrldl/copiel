@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
       hintButton.addEventListener('click', () => {
         useHint = true;
         displayHints(hint);
-        score = penaltyForHint(score);
       });
       questionContainer.innerHTML = decodeHTML(currentQuestion.question);
       displayAnswers(currentQuestion);
@@ -168,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
       //문제 맞췄을 때
       if (useHint) {
         scoreForThisQuestion = penaltyForHint(scoreForThisQuestion);
-        useHint = false;
       }
       score += scoreForThisQuestion;
       selectedButton.classList.add('correct');
