@@ -27,7 +27,7 @@ const handleErrors = err => {
   //password form error
   if (err.message === 'password form error')
     errors.password =
-      '영문, 숫자, 특수문자를 하나 이상 포함하는 6~16자리의 비밀번호를 입력해주세요';
+      '영문, 숫자, 특수문자를 포함하는 6~16자리의 비밀번호를 입력해주세요';
 
   //include space
   if (err.message === 'include space')
@@ -47,12 +47,11 @@ const handleErrors = err => {
 
   //password confirm error
   if (err.message === 'password confirm error')
-    errors.passwordconfirm = '비밀번호가 일치하지 않습니다. 다시 시도해 보세요';
+    errors.passwordconfirm = '비밀번호가 일치하지 않습니다';
 
   //find acount is null
   if (err.message === 'find acount is null')
-    errors.finderror =
-      '입력값이 잘못되었거나 일치하는 계정이 없습니다. 다시 시도해 보세요';
+    errors.finderror = '입력값이 잘못되었거나 일치하는 계정이 없습니다';
 
   //incorrect current password
   if (err.message === 'incorrect current password')

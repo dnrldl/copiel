@@ -26,8 +26,7 @@ form.addEventListener('submit', async e => {
       emailError.textContent = data.errors.email;
       passwordError.textContent = data.errors.password;
       spaceError.textContent = data.errors.spaceerror;
-    }
-    if (data) {
+    } else {
       alert('회원탈퇴가 완료되었습니다!');
       location.assign('/');
     }
