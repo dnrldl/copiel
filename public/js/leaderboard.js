@@ -50,6 +50,11 @@ gametypeSelect.addEventListener('change', function () {
     button.disabled = false;
   }
 });
+if (selectedCategory == '' || selectedGametype == '') {
+  button.disabled = true;
+} else {
+  button.disabled = false;
+}
 
 button.addEventListener('click', function () {
   populateLeaderboard(selectedCategory, selectedGametype);

@@ -15,9 +15,9 @@ function authPw(password) {
   }
 }
 
-//한글 또는 영어 대소문자가 2에서 10글자 반복되어야 함 중간에는 한글이 아닌 문자가 0번 이상 반복될 수 있음
+//문자열의 시작에서 한글(가-힣), 영어 소문자(a-z), 영어 대문자(A-Z) 중 하나와 일치합니다.
 function authUsername(username) {
-  const pattern = /^[^가-힣]*[가-힣A-Za-z]{2,10}[^가-힣]*$/;
+  const pattern = /^[가-힣a-zA-Z]{2,10}$/u;
 
   if (pattern.test(username)) {
     return true;
@@ -28,7 +28,7 @@ function authUsername(username) {
 
 //우리나라 이름
 function authName(name) {
-  const pattern = /^[^가-힣]*[가-힣]{2,4}[^가-힣]*$/;
+  const pattern = /^[가-힣]{2,4}$/u;
 
   if (pattern.test(name)) {
     return true;

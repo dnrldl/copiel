@@ -1,0 +1,23 @@
+<div class="navbar">
+  <h2><a href="/">Copiel</a></h2>
+  <ul>
+    <% if (user) { %>
+    <li>
+      <a href="/leaderboard">리더보드</a>
+    </li>
+    <li>
+      <a href="/profile">프로필</a>
+    </li>
+    <li>
+      <a href="/logout">로그아웃</a>
+    </li>
+    <% } else { %>
+    <li>
+      <a href="/leaderboard">리더보드</a>
+    </li>
+    <li>
+      <a href="/login">로그인</a>
+    </li>
+    <% } %>
+  </ul>
+</div>

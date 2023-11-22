@@ -1,31 +1,33 @@
-<h1>리더보드</h1>
-<div id="leaderboard">
-  <div>
-    <label for="category">스테이지를 골라주세요:</label>
-    <select id="category">
-      <option value="" disabled selected hidden>스테이지 선택</option>
-    </select>
+<div id="content">
+  <div id="leaderboard">
+    <h1>리더보드</h1>
+    <h2>스테이지를 골라주세요!</h2>
+    <div class="select">
+      <select id="category">
+        <option value="" disabled selected hidden>스테이지 선택</option>
+      </select>
+    </div>
+    <h2>게임유형을 골라주세요!</h2>
+    <div class="select">
+      <select id="gametype">
+        <option value="" disabled selected hidden>게임 유형 선택</option>
+        <option value="select">객관식</option>
+        <option value="input">주관식</option>
+      </select>
+    </div>
+    <button id="leaderboard-btn">조회</button>
+    <table>
+      <thead>
+        <tr>
+          <th>순위</th>
+          <th>닉네임</th>
+          <th>점수</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody">
+        <!-- Leaderboard content will be dynamically added here -->
+      </tbody>
+    </table>
   </div>
-  <div>
-    <label for="gametype">게임 유형을 골라주세요:</label>
-    <select id="gametype">
-      <option value="" disabled selected hidden>게임 유형 선택</option>
-      <option value="select">객관식</option>
-      <option value="input">주관식</option>
-    </select>
-  </div>
-  <button id="leaderboard-btn">조회</button>
-  <table>
-    <thead>
-      <tr>
-        <th>순위</th>
-        <th>닉네임</th>
-        <th>점수</th>
-      </tr>
-    </thead>
-    <tbody id="leaderboardBody">
-      <!-- Leaderboard content will be dynamically added here -->
-    </tbody>
-  </table>
 </div>
 <script src="/js/leaderboard.js"></script>

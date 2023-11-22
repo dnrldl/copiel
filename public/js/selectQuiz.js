@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let questionStartTime;
   let useHint = false;
   let selectedCategory;
+  let isHintPushed = false;
 
   const gameType = 'select';
   const baseScorePerQuestion = 1000;
@@ -74,6 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     questionIndex = 0;
     score = 0;
+
+    let currentQuestion = currentQuestions[questionIndex];
+    hint = currentQuestion.hint;
+    hintButton.addEventListener('click', () => {
+      useHint = true;
+      displayHints(hint);
+    });
     displayQuestion();
   }
 
@@ -81,11 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (questionIndex < currentQuestions.length) {
       useHint = false;
       let currentQuestion = currentQuestions[questionIndex];
-      hint = currentQuestion.hint;
-      hintButton.addEventListener('click', () => {
-        useHint = true;
-        displayHints(hint);
-      });
+
       questionContainer.innerHTML = decodeHTML(currentQuestion.question);
       displayAnswers(currentQuestion);
       updateProgress();
@@ -114,13 +118,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function displayHints(hint) {
-    hintContainer.innerHTML = '';
-    var hint = hint;
-
-    const string = document.createElement('div');
-    string.innerHTML = decodeHTML(hint);
-    string.className = 'hint-str';
-    hintContainer.appendChild(string);
+    if (!isHintPushed) {
+      isHintPushed = true;
+      var hint = hint;
+      hintButton.innerHTML = decodeHTML(hint);
+      return;
+    } else {
+      isHintPushed = false;
+      hintButton.innerHTML = 'HINT';
+    }
   }
 
   function displayAnswers(question) {
@@ -146,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function selectAnswer(selectedButton, correctAnswer, answers) {
+    hintButton.disabled = true;
     const timeTaken = (Date.now() - questionStartTime) / 1000;
     let scoreForThisQuestion = Math.max(
       baseScorePerQuestion - Math.floor(timeTaken) * penaltyPerSecond,
@@ -175,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       //문제 틀렸을 때
       selectedButton.classList.add('incorrect');
       correctButton.classList.add('correct');
-      resultContainer.innerHTML = `오답! 정답은:   <b>${decodeHTML(
+      resultContainer.innerHTML = `오답! 정답은:  <b>${decodeHTML(
         correctAnswer
       )}</b>  이었어요`;
     }
@@ -186,6 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
       displayQuestion();
       resultContainer.innerText = '';
       hintButton.disabled = false;
+      isHintPushed = false;
+      hintButton.innerHTML = 'HINT';
     }, 1750);
   }
 
@@ -198,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let button of buttons) {
       button.disabled = true;
     }
-    hintButton.disabled = true;
   }
 
   function showResults(categorySelect) {
