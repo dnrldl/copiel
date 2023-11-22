@@ -92,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
       updateProgress();
       questionStartTime = Date.now();
     } else {
-      let user;
       try {
         const res = await fetch('/sendUserScore', {
           method: 'POST',
@@ -104,14 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: { 'Content-Type': 'application/json' },
         });
         const data = await res.json();
-        user = data;
+        if (score > data``.user[selectedCategory])
+          highScoreDisplay.innerHTML = `나의 최고 점수: ${score}점`;
+        else
+          highScoreDisplay.innerHTML = `나의 최고 점수: ${user.user[selectedCategory]}점`;
       } catch (err) {
         console.log(err);
       }
-      if (score > user.user[selectedCategory])
-        highScoreDisplay.innerHTML = `나의 최고 점수: ${score}점`;
-      else
-        highScoreDisplay.innerHTML = `나의 최고 점수: ${user.user[selectedCategory]}점`;
       showResults(categorySelect.value);
     }
   }
@@ -142,6 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function penaltyForHint(score) {
+    if (score < 100) {
+      return 0;
+    } else return (score -= penaltyHint);
+  }
+
   function selectAnswer(selectedButton, correctAnswer, answers) {
     const timeTaken = (Date.now() - questionStartTime) / 1000;
     let scoreForThisQuestion = Math.max(
@@ -150,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     disableButtons();
+
     let correctButton;
     answers.forEach(answer => {
       if (decodeHTML(answer) === decodeHTML(correctAnswer)) {
@@ -160,13 +165,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (decodeHTML(selectedButton.innerHTML) === decodeHTML(correctAnswer)) {
+      //문제 맞췄을 때
       if (useHint) {
         scoreForThisQuestion = penaltyForHint(scoreForThisQuestion);
+        useHint = false;
       }
       score += scoreForThisQuestion;
       selectedButton.classList.add('correct');
       resultContainer.innerText = `정답! + ${scoreForThisQuestion} 점`;
     } else {
+      //문제 틀렸을 때
       selectedButton.classList.add('incorrect');
       correctButton.classList.add('correct');
       resultContainer.innerHTML = `오답! 정답은:   <b>${decodeHTML(
@@ -231,12 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
     var txt = document.createElement('textarea');
     txt.innerHTML = html;
     return txt.value;
-  }
-
-  function penaltyForHint(score) {
-    if (score < 100) {
-      return 0;
-    } else return (score -= penaltyHint);
   }
 
   fetchCategories();

@@ -4,7 +4,7 @@ const passwordError = document.querySelector('.password.error');
 const passwordconfirmError = document.querySelector('.passwordconfirm.error');
 const spaceError = document.querySelector('.space.error');
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
 
   currentPasswordError.textContent = '';
@@ -27,7 +27,6 @@ form.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
-    console.log(data);
 
     if (data.errors) {
       currentPasswordError.textContent = data.errors.currentpassword;

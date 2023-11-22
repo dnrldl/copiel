@@ -159,13 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inputText.addEventListener('keydown', event => {
       if (event.key === 'Enter') {
-        console.log('keydown');
         submitEnter(event);
       }
     });
 
     submit.addEventListener('click', () => {
-      console.log('submit');
       submitEnter();
     });
 
@@ -176,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function submitEnter(event) {
     if (event) event.preventDefault();
     let result = null;
-    console.log(inputText.value);
+
     if (inputText.value === currentQuestions[questionIndex].correct_answer) {
       result = 'correct';
       inputAnswer(result, currentQuestions[questionIndex].correct_answer);
@@ -283,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let contentsHeight = document.getElementById('content-area').offsetHeight,
       popupElement = document.getElementById(element),
       parentElement = popupElement.parentElement;
-    console.log(parentElement);
+
     popupElement.style.display = 'flex';
     parentElement.style.display = 'flex';
 
@@ -301,7 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // parentElement.style.background = "rgba(100,0,0,.1)";
       // $(parentElement).animate({ 'opacity' : 0 }, 300,'linear');
       $(popupElement).animate({ top: -1200 }, 500, 'easeOutExpo', function () {
-        console.log('hide');
         $(popupElement).css('display', 'none');
         $(parentElement).css('display', 'none');
         if (callBack) callBack();

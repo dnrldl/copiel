@@ -2,7 +2,7 @@ const form = document.querySelector('form');
 const usernameError = document.querySelector('.username.error');
 const spaceError = document.querySelector('.space.error');
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
 
   usernameError.textContent = '';
@@ -17,7 +17,6 @@ form.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
-    console.log(data);
 
     if (data.errors) {
       usernameError.textContent = data.errors.username;
