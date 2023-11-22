@@ -2,8 +2,8 @@ const categorySelect = document.getElementById('category');
 const gametypeSelect = document.getElementById('gametype');
 const button = document.getElementById('leaderboard-btn');
 
-var selectedCategory;
-var selectedGametype;
+var selectedCategory = '';
+var selectedGametype = '';
 
 async function getData() {
   try {
@@ -13,7 +13,6 @@ async function getData() {
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
-    console.log(data.leaderboardData);
     return data.leaderboardData;
   } catch (err) {
     console.log(err);
@@ -35,10 +34,23 @@ fetch(categoryJsonFilePath)
 
 categorySelect.addEventListener('change', function () {
   selectedCategory = categorySelect.value;
+
+  if (selectedCategory == '' || selectedGametype == '') {
+    button.disabled = true;
+  } else {
+    button.disabled = false;
+  }
 });
-categorySelect.addEventListener('change', function () {
+gametypeSelect.addEventListener('change', function () {
   selectedGametype = gametypeSelect.value;
+
+  if (selectedCategory == '' || selectedGametype == '') {
+    button.disabled = true;
+  } else {
+    button.disabled = false;
+  }
 });
+
 button.addEventListener('click', function () {
   populateLeaderboard(selectedCategory, selectedGametype);
 });
