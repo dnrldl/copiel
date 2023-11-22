@@ -9,7 +9,10 @@ async function getData() {
   try {
     const res = await fetch('/getUserScore', {
       method: 'POST',
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        category: selectedCategory,
+        gametype: selectedGametype,
+      }),
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
@@ -62,8 +65,10 @@ button.addEventListener('click', function () {
 
 // Function to populate the leaderboard
 async function populateLeaderboard(selectedCategory, selectedGametype) {
-  const leaderboardBody = document.getElementById('leaderboardBody');
-  const leaderboardData = await getData();
+  var leaderboardBody = document.getElementById('leaderboardBody');
+  var leaderboardData = '';
+
+  leaderboardData = await getData();
 
   var userScoreName = selectedGametype + 'score' + selectedCategory;
 
@@ -73,6 +78,7 @@ async function populateLeaderboard(selectedCategory, selectedGametype) {
   // Add rows to the table
   leaderboardData.forEach((player, i) => {
     const row = document.createElement('tr');
+    row.innerHTML = '';
     if (player[userScoreName] == 0) return;
     row.innerHTML = `
       <td>${i + 1}</td>

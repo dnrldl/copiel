@@ -1,20 +1,36 @@
+<head>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css"/>
+    <link rel="stylesheet" href="/css/login.css" />
+</head>
 <form>
-  <h2>로그인</h2>
+  <div class="card-3d-wrap mx-auto">
+      <div class="card-front">
+          <div class="center-wrap">
+              <div class="section text-center">
+                  <h4 class="pb-3">로그인</h4>
+                  <div class="form-group">
+                      <input type="text" name="email" placeholder="이메일" autocomplete="username" class="form-style"/>
+                      <i class="input-icon uil uil-at"></i>
+                      <div class="email error"></div>
+                  </div>
+                  <div class="form-group mt-2">
+                      <input type="password" name="password" placeholder="비밀번호" autocomplete="current-password" class="form-style"/>
+                      <i class="input-icon uil uil-lock-alt"></i>
+                      <div class="password error"></div>
+                  </div>
+                  <div class="space error"></div>
 
-  <label for="email">이메일</label>
-  <input type="text" name="email" /> <br />
-  <div class="email error"></div>
+                  <button class="btn">로그인</button>
+                  <div style="margin-top:20px;">
+                      <p ><a href="/forgotemail" class="mb-0 text-center link">계정을 잊어버리셨나요?</a></p>
+                      <p ><a href="/forgotpassword" class="mb-0 text-center link">비밀번호를 잊어버리셨나요?</a></p>
+                      <p ><a href="/signup" class="mb-0 mt-4 text-center link">계정이 없으신가요?</a></p>
+                  </div>
 
-  <label for="password">비밀번호</label>
-  <input type="password" name="password" /> <br />
-  <div class="password error"></div>
-
-  <div class="space error"></div>
-
-  <button>로그인</button>
-  <p><a href="/forgotemail" class="btn">계정을 잊어버리셨나요?</a></p>
-  <p><a href="/forgotpassword" class="btn">비밀번호를 잊어버리셨나요?</a></p>
-  <p><a href="/signup" class="btn">계정이 없으신가요?</a></p>
+              </div>
+          </div>
+      </div>
+  </div>
 </form>
 
 <script src="/js/login.js"></script>

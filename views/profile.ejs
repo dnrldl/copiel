@@ -1,21 +1,25 @@
-<h1><%= user.username %>님의 프로필</h1>
-<p>이메일: <%= user.email %></p>
-<p>이름: <%= user.name %></p>
-<div class="btn-changepassword">
-  <a href="/changepassword">비밀번호 바꾸기</a>
-</div>
-<p>닉네임: <%= user.username %></p>
-<div class="btn-chageusername"><a href="/changeusername">이름 바꾸기</a></div>
-<p>전화번호: <%= user.phone%></p>
-<p>
-  회원 가입한 날짜: <%= user.createAt.getFullYear() %>년 <%=
-  user.createAt.getMonth() + 1 %>월 <%= user.createAt.getDate() %>일
-</p>
-<p>
-  정보 변경한 날짜: <%= user.updateAt.getFullYear() %>년 <%=
-  user.updateAt.getMonth() + 1 %>월 <%= user.updateAt.getDate() %>일
-</p>
+<div id="content">
+  <div id="leaderboard">
+    <div id="profile">
+      <h1><%= user.username %>님의 프로필</h1>
+      <p>이메일: <%= user.email %></p>
+      <p>이름: <%= user.name %></p>
+      <div class="btn-changepassword">
+        <a href="/changepassword">비밀번호 바꾸기</a>
+      </div>
+      <p>닉네임: <%= user.username %></p>
+      <div class="btn-chageusername">
+        <a href="/changeusername">이름 바꾸기</a>
+      </div>
+      <p>전화번호: <%= user.phone%></p>
+      <p>
+        회원 가입한 날짜: <%= user.createAt.getFullYear() %>년 <%=
+        user.createAt.getMonth() + 1 %>월 <%= user.createAt.getDate() %>일
+      </p>
 
-<div class="btn-deleteAcount">
-  <a href="/deleteAcount">회원 탈퇴하기</a>
+      <div class="btn-deleteAcount">
+        <a href="/deleteAcount">회원 탈퇴하기</a>
+      </div>
+    </div>
+  </div>
 </div>

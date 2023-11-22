@@ -17,7 +17,7 @@ function authPw(password) {
 
 //문자열의 시작에서 한글(가-힣), 영어 소문자(a-z), 영어 대문자(A-Z) 중 하나와 일치합니다.
 function authUsername(username) {
-  const pattern = /^[가-힣a-zA-Z]{2,10}$/u;
+  const pattern = /^[가-힣a-zA-Z0-9]{2,10}$/u;
 
   if (pattern.test(username)) {
     return true;
@@ -257,26 +257,21 @@ module.exports.deleteAcount_post = async (req, res) => {
 };
 
 module.exports.getUserScore_post = async (req, res) => {
+  const { category, gametype } = req.body;
+
+  var temp = gametype + 'score' + category;
+
   try {
     const leaderboardData = await User.find(
       {},
       {
         username: 1,
-        selectscore1: 1,
-        selectscore2: 1,
-        selectscore3: 1,
-        selectscore4: 1,
-        selectscore5: 1,
-        selectscore6: 1,
-        inputscore1: 1,
-        inputscore2: 1,
-        inputscore3: 1,
-        inputscore4: 1,
-        inputscore5: 1,
-        inputscore6: 1,
+        [temp]: 1,
         _id: 0,
       }
-    ).sort({ score: -1 });
+    ).sort({
+      [temp]: -1,
+    });
     res.status(200).json({ leaderboardData });
   } catch (err) {
     const errors = errorHandler.handleErrors(err);

@@ -1,12 +1,25 @@
+<head>
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css"/>
+  <link rel="stylesheet" href="/css/login.css" />
+</head>
 <form>
-  <h2>닉네임 바꾸기</h2>
-  <label for="username">바꿀 닉네임</label>
-  <input type="text" name="username" /> <br />
-  <div class="username error"></div>
+  <div class="card-3d-wrap mx-auto" style="height: 300px">
+    <div class="card-front">
+      <div class="center-wrap">
+        <div class="section text-center">
+          <h4 class="pb-3">닉네임 바꾸기</h4>
+          <div class="form-group">
+            <input type="text" name="username" placeholder="바꿀 닉네임" class="form-style" />
+            <i class="input-icon uil uil-user"></i>
+            <div class="username error"></div>
+          </div>
 
-  <div class="space error"></div>
-
-  <button>바꾸기</button>
+          <div class="space error"></div>
+          <button class="btn">바꾸기</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
 
 <script src="/js/changeusername.js"></script>

@@ -1,18 +1,33 @@
+<head>
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css"/>
+  <link rel="stylesheet" href="/css/login.css" />
+</head>
 <form>
-  <h2>계정 찾기</h2>
+  <div class="card-3d-wrap mx-auto">
+    <div class="card-front">
+      <div class="center-wrap">
+        <div class="section text-center">
+          <h4 class="pb-3">계정 찾기</h4>
+          <div class="form-group">
+            <input type="text" name="name" placeholder="이름" class="form-style" />
+            <i class="input-icon uil uil-user"></i>
+            <div class="name error"></div>
+          </div>
+          <div class="form-group mt-2">
+            <input type="text" name="phone" placeholder="전화번호" oninput="oninputPhone(this)" maxlength="13" class="form-style" />
+            <i class="input-icon uil uil-phone"></i>
+            <div class="phone error"></div>
+          </div>
+          <div class="space error"></div>
+          <div class="find error"></div>
 
-  <label for="name">이름</label>
-  <input type="text" name="name" /> <br />
-  <div class="name error"></div>
+          <button class="btn">찾기</button>
 
-  <label for="phone">전화번호</label>
-  <input type="text" name="phone" oninput="oninputPhone(this)" maxlength="13" />
-  <div class="phone error"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div class="space error"></div>
-  <div class="find error"></div>
-
-  <button>찾기</button>
 </form>
 
 <script src="/js/forgotemail.js"></script>

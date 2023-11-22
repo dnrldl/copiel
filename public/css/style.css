@@ -36,6 +36,20 @@ body {
   font-weight: 600;
   font-size: 32px;
 }
+#leaderboard a {
+  text-decoration: none;
+  color: #ffb742;
+  font-weight: 600;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+#leaderboard a:hover {
+  color: #fb8c00;
+}
+
+#profile {
+  text-align: left;
+}
 
 .navbar h2 {
   color: #ffb742;
@@ -379,6 +393,9 @@ select::-ms-expand {
 
 #leaderboard h2 {
   margin: 10px 0;
+}
+#leaderboard p {
+  margin-bottom: 5px;
 }
 
 #leaderboard table {
