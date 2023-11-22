@@ -234,7 +234,8 @@ select::-ms-expand {
 }
 
 /* 게임 */
-#quiz-container {
+#quiz-container,
+#leaderboard {
   width: 420px;
   background-color: #2b2e2e;
   padding: 40px;
@@ -242,6 +243,12 @@ select::-ms-expand {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   margin: 20px;
 }
+#quiz-container h1,
+#leaderboard h1 {
+  color: #ffb742;
+  margin-bottom: 20px;
+}
+
 #quiz-container h2 {
   margin-bottom: 30px;
 }
@@ -369,12 +376,7 @@ select::-ms-expand {
   border-radius: 8px;
   border: 1px solid #ddd;
 }
-#leaderboard {
-  background: #292b2e;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  padding: 20px 40px;
-}
+
 #leaderboard h2 {
   margin: 10px 0;
 }

@@ -79,11 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
     questionIndex = 0;
     score = 0;
 
-    let currentQuestion = currentQuestions[questionIndex];
-    hint = currentQuestion.hint;
     hintButton.addEventListener('click', () => {
       useHint = true;
-      displayHints(hint);
+      displayHints();
       score = penaltyForHint(score);
     });
     displayQuestion();
@@ -124,6 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function displayHints(hint) {
+    let currentQuestion = currentQuestions[questionIndex];
+    hint = currentQuestion.hint;
     if (!isHintPushed) {
       isHintPushed = true;
       var hint = hint;
