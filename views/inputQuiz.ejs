@@ -17,10 +17,22 @@
     <button id="hint-btn">?</button>
     <div id="hint"></div>
     <div id="question"></div>
-    <div id="answers"></div>
+    <div id="answers">
+      <!-- <input
+        id="inputText"
+        type="text"
+        placeholder="정답을 입력하세요"
+        autocomplete="off"
+      /> -->
+      <!-- <button id="submit">확인</button> -->
+    </div>
     <div id="result"></div>
   </div>
 </div>
-
-<script src="/questions/data.js"></script>
-<script src="/js/selectQuiz.js"></script>
+<div id="popup" style="display: none">
+  <div id="popupHint">
+    <p></p>
+    <button id="hintCloseBtn">x</button>
+  </div>
+</div>
+<script src="/js/inputQuiz.js"></script>

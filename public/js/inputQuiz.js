@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const questionContainer = document.getElementById('question');
-  const hintContainer = document.getElementById('hint');
-  const answersContainer = document.getElementById('answers');
-  const resultContainer = document.getElementById('result');
-  const progressContainer = document.getElementById('progress');
-  const currentScoreDisplay = document.getElementById('currentScore');
-  const gameSetupDiv = document.getElementById('game-setup');
-  const quizDiv = document.getElementById('quiz');
-  const categorySelect = document.getElementById('category');
-  const startButton = document.getElementById('start-btn');
-  const hintButton = document.getElementById('hint-btn');
-  const highScoreDisplay = document.getElementById('highScore');
+  const questionContainer = document.getElementById('question'),
+    hintContainer = document.getElementById('hint'),
+    answersContainer = document.getElementById('answers'),
+    resultContainer = document.getElementById('result'),
+    progressContainer = document.getElementById('progress'),
+    currentScoreDisplay = document.getElementById('currentScore'),
+    highScoreDisplay = document.getElementById('highScore'),
+    gameSetupDiv = document.getElementById('game-setup'),
+    quizDiv = document.getElementById('quiz'),
+    categorySelect = document.getElementById('category'),
+    startButton = document.getElementById('start-btn'),
+    hintButton = document.getElementById('hint-btn');
 
   let currentQuestions = [];
   let score = 0;
@@ -19,13 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
   let questionStartTime;
   let useHint = false;
   let selectedCategory;
+  // let highScore = parseInt(localStorage.getItem('HighScoreTrivia')) || 0;
 
-  const gameType = 'select';
-  const baseScorePerQuestion = 1000;
-  const penaltyPerSecond = 10;
-  const penaltyHint = 100;
+  // popupHint.style.top = window.innerHeight+"px"
+
+  const gameType = 'input';
+  const baseScorePerQuestion = 1000,
+    penaltyPerSecond = 10,
+    penaltyHint = 100;
 
   startButton.disabled = true;
+
+  // highScoreDisplay.innerText = `최고 점수: ${highScore}`;
 
   function fetchCategories() {
     const categoryJsonFilePath = '../categories/categories.json';
@@ -59,17 +64,23 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       console.log(err);
     }
+
     gameSetupDiv.style.display = 'none';
     quizDiv.style.display = 'block';
     hintButton.style.display = 'block';
   }
 
   function fetchQuestions(category) {
-    var questionJsonFilePath = '../questions/selectStage' + category + '.json';
+    // import questionData from '../questions/inputStage1.js';
+    // const questionData = require(`/questions/inputStage${category}.js`);
+    // console.log(questionData);
+
+    var questionJsonFilePath = '../questions/inputStage' + category + '.json';
 
     fetch(questionJsonFilePath)
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         currentQuestions = data;
         questionIndex = 0;
         score = 0;
@@ -86,15 +97,25 @@ document.addEventListener('DOMContentLoaded', () => {
       let currentQuestion = currentQuestions[questionIndex];
       hint = currentQuestion.hint;
       hintButton.addEventListener('click', () => {
+        hintButton.disabled = true;
         useHint = true;
         displayHints(hint);
         score = penaltyForHint(score);
       });
+      hintCloseBtn.addEventListener('click', () => {
+        popupPlayer(
+          'hide',
+          'popupHint',
+          null,
+          () => (hintButton.disabled = false)
+        );
+      });
       questionContainer.innerHTML = decodeHTML(currentQuestion.question);
-      displayAnswers(currentQuestion);
+      if (questionIndex === 0) displayAnswers(currentQuestion);
       updateProgress();
       questionStartTime = Date.now();
     } else {
+      // updateHighScore();
       let user;
       try {
         const res = await fetch('/sendUserScore', {
@@ -124,57 +145,89 @@ document.addEventListener('DOMContentLoaded', () => {
     var hint = hint;
 
     const string = document.createElement('div');
-    string.innerHTML = decodeHTML(hint);
+    // string.innerHTML = decodeHTML(hint);
     string.className = 'hint-str';
     hintContainer.appendChild(string);
+
+    popupHint.querySelector('p').innerHTML = decodeHTML(hint);
+    popupPlayer('show', 'popupHint');
   }
 
   function displayAnswers(question) {
     answersContainer.innerHTML = '';
-    const answers = [...question.incorrect_answers, question.correct_answer];
-    shuffleArray(answers);
+    const inputText = document.createElement('input');
+    inputText.type = 'text';
+    inputText.id = 'inputText';
+    inputText.placeholder = '정답을 입력하세요';
+    inputText.autocomplete = 'off';
 
-    answers.forEach(answer => {
-      const button = document.createElement('button');
-      button.innerHTML = decodeHTML(answer);
-      button.className = 'answer-btn';
-      button.addEventListener('click', () =>
-        selectAnswer(button, question.correct_answer, answers)
-      );
-      answersContainer.appendChild(button);
+    const submit = document.createElement('button');
+    submit.innerText = '확인';
+    submit.id = 'submit';
+
+    inputText.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        console.log('keydown');
+        submitEnter(event);
+      }
     });
+
+    submit.addEventListener('click', () => {
+      console.log('submit');
+      submitEnter();
+    });
+
+    answersContainer.appendChild(inputText);
+    answersContainer.appendChild(submit);
   }
 
-  function selectAnswer(selectedButton, correctAnswer, answers) {
+  function submitEnter(event) {
+    if (event) event.preventDefault();
+    let result = null;
+    console.log(inputText.value);
+    if (inputText.value === currentQuestions[questionIndex].correct_answer) {
+      result = 'correct';
+      inputAnswer(result, currentQuestions[questionIndex].correct_answer);
+    } else {
+      if (event === undefined || event.key === 'Enter') {
+        if (inputText.value.trim() == '') {
+          alert('공백은 사용할 수 없습니다.');
+          inputText.value = '';
+        } else {
+          var pattern = /\s/g; // /[\s]/g;
+          if (inputText.value.match(pattern)) {
+            alert('공백은 사용할 수 없습니다.');
+            inputText.value = '';
+          } else {
+            result = 'incorrect';
+            inputAnswer(result, currentQuestions[questionIndex].correct_answer);
+          }
+        }
+      }
+    }
+  }
+
+  function inputAnswer(result, correctAnswer) {
+    submit.disabled = true;
+    // hintButton.disabled = true;
+    inputText.disabled = true;
+    inputText.value = '';
     const timeTaken = (Date.now() - questionStartTime) / 1000;
     let scoreForThisQuestion = Math.max(
       baseScorePerQuestion - Math.floor(timeTaken) * penaltyPerSecond,
       0
     );
 
-    disableButtons();
-    let correctButton;
-    answers.forEach(answer => {
-      if (decodeHTML(answer) === decodeHTML(correctAnswer)) {
-        correctButton = [...answersContainer.childNodes].find(
-          button => button.innerHTML === decodeHTML(correctAnswer)
-        );
-      }
-    });
-
-    if (decodeHTML(selectedButton.innerHTML) === decodeHTML(correctAnswer)) {
+    if (result === 'correct') {
       if (useHint) {
         scoreForThisQuestion = penaltyForHint(scoreForThisQuestion);
       }
       score += scoreForThisQuestion;
-      selectedButton.classList.add('correct');
-      resultContainer.innerText = `정답! + ${scoreForThisQuestion} 점`;
+      resultContainer.innerText = `정답입니다!! + ${scoreForThisQuestion} 점`;
     } else {
-      selectedButton.classList.add('incorrect');
-      correctButton.classList.add('correct');
-      resultContainer.innerHTML = `오답! 정답은:   <b>${decodeHTML(
+      resultContainer.innerHTML = `오답! 정답은: &nbsp;&nbsp; <b>${decodeHTML(
         correctAnswer
-      )}</b>  이었어요`;
+      )}</b> &nbsp;&nbsp;이었어요`;
     }
 
     updateCurrentScore();
@@ -183,19 +236,13 @@ document.addEventListener('DOMContentLoaded', () => {
       displayQuestion();
       resultContainer.innerText = '';
       hintButton.disabled = false;
+      submit.disabled = false;
+      inputText.disabled = false;
     }, 1750);
   }
 
   function updateCurrentScore() {
     currentScoreDisplay.innerText = `현재 점수: ${score}점`;
-  }
-
-  function disableButtons() {
-    const buttons = answersContainer.getElementsByClassName('answer-btn');
-    for (let button of buttons) {
-      button.disabled = true;
-    }
-    hintButton.disabled = true;
   }
 
   function showResults(categorySelect) {
@@ -216,11 +263,58 @@ document.addEventListener('DOMContentLoaded', () => {
     hintButton.style.display = 'none';
   }
 
+  function updateHighScore() {
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem('HighScoreTrivia', highScore.toString());
+      updateHighScoreDisplay();
+    }
+  }
+
+  function updateHighScoreDisplay() {
+    highScoreDisplay.innerText = `최고 점수: ${highScore}`;
+  }
+
   function updateProgress() {
-    progressContainer.innerText = `STAGE ${categorySelect.value} 문제 ${
-      questionIndex + 1
-    }/${currentQuestions.length}`;
+    progressContainer.innerText = `문제 ${questionIndex + 1}/${
+      currentQuestions.length
+    }`;
     hintContainer.innerHTML = '';
+  }
+
+  function popupPlayer(
+    type,
+    element,
+    dimColor = 'rgba(255,255,255,0.4)',
+    callBack
+  ) {
+    let contentsHeight = document.getElementById('content-area').offsetHeight,
+      popupElement = document.getElementById(element),
+      parentElement = popupElement.parentElement;
+    console.log(parentElement);
+    popupElement.style.display = 'flex';
+    parentElement.style.display = 'flex';
+
+    // popup show
+    if (type == 'show') {
+      $(parentElement).animate({ opacity: 1 }, 300, 'linear');
+      // parentElement.style.background = dimColor;
+      popupElement.style.top = -1 * contentsHeight + 'px';
+      $(popupElement).animate({ top: -200 }, 500, 'easeOutBack', function () {
+        //
+        if (callBack) callBack();
+      });
+    } else {
+      // popup hide
+      // parentElement.style.background = "rgba(100,0,0,.1)";
+      // $(parentElement).animate({ 'opacity' : 0 }, 300,'linear');
+      $(popupElement).animate({ top: -1200 }, 500, 'easeOutExpo', function () {
+        console.log('hide');
+        $(popupElement).css('display', 'none');
+        $(parentElement).css('display', 'none');
+        if (callBack) callBack();
+      });
+    }
   }
 
   function shuffleArray(array) {
@@ -242,6 +336,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else return (score -= penaltyHint);
   }
 
+  // correctButton = [...answersContainer.childNodes].find(
+  //     button => button.innerHTML === decodeHTML(correctAnswer)
+  // );
   fetchCategories();
 
   categorySelect.addEventListener('change', function () {

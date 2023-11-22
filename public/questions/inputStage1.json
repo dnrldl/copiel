@@ -1,0 +1,14 @@
+[
+  {
+    "category": "기초 문법, 변수",
+    "question": "파이썬은 어떤 언어 일까요?",
+    "hint": "초보자가 배우기 쉬운 프로그래밍언어에요",
+    "correct_answer": "a"
+  },
+  {
+    "category": "기초 문법, 변수",
+    "question": "파이썬에서 한줄 주석은 무엇 일까요?",
+    "hint": "음표에도 사용되요",
+    "correct_answer": "b"
+  }
+]

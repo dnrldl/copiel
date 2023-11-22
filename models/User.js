@@ -35,27 +35,51 @@ const userSchema = new Schema({
     type: String,
     default: 0,
   },
-  score1: {
+  selectscore1: {
     type: Number,
     default: 0,
   },
-  score2: {
+  selectscore2: {
     type: Number,
     default: 0,
   },
-  score3: {
+  selectscore3: {
     type: Number,
     default: 0,
   },
-  score4: {
+  selectscore4: {
     type: Number,
     default: 0,
   },
-  score5: {
+  selectscore5: {
     type: Number,
     default: 0,
   },
-  score6: {
+  selectscore6: {
+    type: Number,
+    default: 0,
+  },
+  inputscore1: {
+    type: Number,
+    default: 0,
+  },
+  inputscore2: {
+    type: Number,
+    default: 0,
+  },
+  inputscore3: {
+    type: Number,
+    default: 0,
+  },
+  inputscore4: {
+    type: Number,
+    default: 0,
+  },
+  inputscore5: {
+    type: Number,
+    default: 0,
+  },
+  inputscore6: {
     type: Number,
     default: 0,
   },

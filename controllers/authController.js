@@ -39,7 +39,7 @@ function authName(name) {
 
 //create Token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
+const createToken = id => {
   return jwt.sign({ id }, 'copiel secret', {
     expiresIn: maxAge,
   });
@@ -262,12 +262,18 @@ module.exports.getUserScore_post = async (req, res) => {
       {},
       {
         username: 1,
-        score1: 1,
-        score2: 1,
-        score3: 1,
-        score4: 1,
-        score5: 1,
-        score6: 1,
+        selectscore1: 1,
+        selectscore2: 1,
+        selectscore3: 1,
+        selectscore4: 1,
+        selectscore5: 1,
+        selectscore6: 1,
+        inputscore1: 1,
+        inputscore2: 1,
+        inputscore3: 1,
+        inputscore4: 1,
+        inputscore5: 1,
+        inputscore6: 1,
         _id: 0,
       }
     ).sort({ score: -1 });
@@ -279,7 +285,7 @@ module.exports.getUserScore_post = async (req, res) => {
 };
 
 module.exports.sendUserScore_post = async (req, res) => {
-  const { score, category } = req.body;
+  const { score, category, gameType } = req.body;
   const token = req.cookies.jwt;
 
   try {
@@ -287,7 +293,7 @@ module.exports.sendUserScore_post = async (req, res) => {
     else {
       var decodedToken = await jwt.verify(token, 'copiel secret');
       var user = await User.findById(decodedToken.id);
-      var userScoreName = 'score' + category;
+      var userScoreName = gameType + 'score' + category;
 
       if (user[userScoreName] < score) {
         const filter = { _id: user._id };
@@ -303,7 +309,6 @@ module.exports.sendUserScore_post = async (req, res) => {
   }
 };
 module.exports.getLoggedUserScore_post = async (req, res) => {
-  const { category } = req.body;
   const token = req.cookies.jwt;
 
   try {

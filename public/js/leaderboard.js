@@ -1,6 +1,9 @@
 const categorySelect = document.getElementById('category');
+const gametypeSelect = document.getElementById('gametype');
+const button = document.getElementById('leaderboard-btn');
 
 var selectedCategory;
+var selectedGametype;
 
 async function getData() {
   try {
@@ -10,6 +13,7 @@ async function getData() {
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
+    console.log(data.leaderboardData);
     return data.leaderboardData;
   } catch (err) {
     console.log(err);
@@ -19,9 +23,9 @@ async function getData() {
 const categoryJsonFilePath = '../categories/categories.json';
 
 fetch(categoryJsonFilePath)
-  .then((response) => response.json())
-  .then((data) => {
-    data.categories.forEach((category) => {
+  .then(response => response.json())
+  .then(data => {
+    data.categories.forEach(category => {
       const option = document.createElement('option');
       option.value = category.id;
       option.textContent = category.name;
@@ -31,16 +35,20 @@ fetch(categoryJsonFilePath)
 
 categorySelect.addEventListener('change', function () {
   selectedCategory = categorySelect.value;
-
-  populateLeaderboard(selectedCategory);
+});
+categorySelect.addEventListener('change', function () {
+  selectedGametype = gametypeSelect.value;
+});
+button.addEventListener('click', function () {
+  populateLeaderboard(selectedCategory, selectedGametype);
 });
 
 // Function to populate the leaderboard
-async function populateLeaderboard(selectedCategory) {
+async function populateLeaderboard(selectedCategory, selectedGametype) {
   const leaderboardBody = document.getElementById('leaderboardBody');
   const leaderboardData = await getData();
 
-  var userScoreName = 'score' + selectedCategory;
+  var userScoreName = selectedGametype + 'score' + selectedCategory;
 
   // Clear existing content
   leaderboardBody.innerHTML = '';

@@ -6,12 +6,21 @@
       <option value="" disabled selected hidden>스테이지 선택</option>
     </select>
   </div>
+  <div>
+    <label for="gametype">게임 유형을 골라주세요:</label>
+    <select id="gametype">
+      <option value="" disabled selected hidden>게임 유형 선택</option>
+      <option value="select">객관식</option>
+      <option value="input">주관식</option>
+    </select>
+  </div>
+  <button id="leaderboard-btn">조회</button>
   <table>
     <thead>
       <tr>
-        <th>Rank</th>
-        <th>Name</th>
-        <th>Score</th>
+        <th>순위</th>
+        <th>닉네임</th>
+        <th>점수</th>
       </tr>
     </thead>
     <tbody id="leaderboardBody">

@@ -27,8 +27,14 @@ router.get('/forgotpassword', preventEnter, (req, res) =>
 router.get('/leaderboard', (req, res) =>
   res.render('leaderboard', { title: 'Copiel : 리더보드' })
 );
+router.get('/selectquiztype', (req, res) =>
+  res.render('selectQuizType', { title: 'Copiel : 퀴즈 유형 고르기' })
+);
 router.get('/selectquiz', (req, res) =>
-  res.render('selectQuiz', { title: 'Copiel : 퀴즈' })
+  res.render('selectQuiz', { title: 'Copiel : 객관식' })
+);
+router.get('/inputquiz', (req, res) =>
+  res.render('inputQuiz', { title: 'Copiel : 단답식' })
 );
 
 //auth routes(for logged users)
