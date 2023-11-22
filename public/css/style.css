@@ -14,6 +14,7 @@ body {
 }
 
 #content {
+  margin-top: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -271,6 +272,7 @@ select::-ms-expand {
 #start-btn,
 #hint-btn,
 #leaderboard-btn,
+#quiz-container button,
 #submit {
   padding: 12px 25px;
   background-color: #1c1917;
@@ -288,6 +290,7 @@ select::-ms-expand {
 #start-btn:hover,
 #hint-btn:hover,
 #leaderboard-btn:hover,
+#quiz-container button:hover,
 #submit:hover {
   background-color: #ffb742;
   transform: scale(1.05);
