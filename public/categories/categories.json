@@ -2,27 +2,27 @@
   "categories": [
     {
       "id": 1,
-      "name": "기초 문법, 변수"
+      "name": "Stage1: 기초 문법"
     },
     {
       "id": 2,
-      "name": "문자열"
+      "name": "Stage2: 문자열"
     },
     {
       "id": 3,
-      "name": "리스트, 튜플, 딕셔너리"
+      "name": "Stage3: 배열"
     },
     {
       "id": 4,
-      "name": "분기문"
+      "name": "Stage4: 분기문"
     },
     {
       "id": 5,
-      "name": "반복문"
+      "name": "Stage5: 반복문"
     },
     {
       "id": 6,
-      "name": "클래스"
+      "name": "Stage6: 클래스"
     }
   ]
 }

@@ -71,24 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchQuestions(category) {
-    // import questionData from '../questions/inputStage1.js';
-    // const questionData = require(`/questions/inputStage${category}.js`);
-    // console.log(questionData);
+    if (category == '1') currentQuestions = inputStage1;
+    if (category == '2') currentQuestions = inputStage2;
+    if (category == '3') currentQuestions = inputStage3;
+    if (category == '4') currentQuestions = inputStage4;
+    if (category == '5') currentQuestions = inputStage5;
+    if (category == '6') currentQuestions = inputStage6;
 
-    var questionJsonFilePath = '../questions/inputStage' + category + '.json';
-
-    fetch(questionJsonFilePath)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        currentQuestions = data;
-        questionIndex = 0;
-        score = 0;
-        displayQuestion();
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-      });
+    questionIndex = 0;
+    score = 0;
+    displayQuestion();
   }
 
   async function displayQuestion() {
@@ -276,9 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateProgress() {
-    progressContainer.innerText = `문제 ${questionIndex + 1}/${
-      currentQuestions.length
-    }`;
+    progressContainer.innerText = `STAGE ${categorySelect.value} 문제 ${
+      questionIndex + 1
+    }/${currentQuestions.length}`;
     hintContainer.innerHTML = '';
   }
 

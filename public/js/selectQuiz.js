@@ -65,19 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fetchQuestions(category) {
-    var questionJsonFilePath = '../questions/selectStage' + category + '.json';
+    if (category == '1') currentQuestions = selectStage1;
+    if (category == '2') currentQuestions = selectStage2;
+    if (category == '3') currentQuestions = selectStage3;
+    if (category == '4') currentQuestions = selectStage4;
+    if (category == '5') currentQuestions = selectStage5;
+    if (category == '6') currentQuestions = selectStage6;
 
-    fetch(questionJsonFilePath)
-      .then(response => response.json())
-      .then(data => {
-        currentQuestions = data;
-        questionIndex = 0;
-        score = 0;
-        displayQuestion();
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-      });
+    questionIndex = 0;
+    score = 0;
+    displayQuestion();
   }
 
   async function displayQuestion() {
