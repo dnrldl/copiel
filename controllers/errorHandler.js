@@ -1,5 +1,5 @@
 //Handle Errors
-const handleErrors = err => {
+const handleErrors = (err) => {
   console.log(err.message, err.code);
   let errors = {
     email: '',
@@ -34,7 +34,7 @@ const handleErrors = err => {
     errors.spaceerror = '입력란에 공백을 넣지 마세요';
 
   //name length error
-  if (err.message === 'name error')
+  if (err.message === 'name length error')
     errors.name = '2자리 이상의 이름을 올바르게 입력해주세요';
 
   //username length error

@@ -272,6 +272,7 @@ form {
   cursor: pointer;
 }
 .error {
+  margin: 5px;
   color: #f44336;
 }
 .btn:active,
