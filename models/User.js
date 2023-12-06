@@ -31,10 +31,6 @@ const userSchema = new Schema({
     required: [true, '전화번호를 입력해주세요'],
     minLength: [13, '유효한 전화번호를 입력해주세요'],
   },
-  clearStage: {
-    type: String,
-    default: 0,
-  },
   selectscore1: {
     type: Number,
     default: 0,
